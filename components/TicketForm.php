@@ -8,6 +8,7 @@ use Keios\Support\Models\Settings;
 use Keios\Support\Models\Ticket;
 use Keios\Support\Models\TicketCategory;
 use Keios\Support\Models\TicketCreator;
+use Keios\Support\Models\TicketStatus;
 
 
 /**
@@ -78,6 +79,8 @@ class TicketForm extends ComponentBase
         $this->helpers->validateTicket($data);
         $creator = $this->checkCreator($data['name'], $data['email']);
         $redirectPage = $this->property('ticketPage');
+        $newStatus = TicketStatus::where('name', 'New')->first()->id;
+
 
         $ticket = new Ticket();
         $ticket->hash_id = 'temp';
@@ -87,7 +90,7 @@ class TicketForm extends ComponentBase
         $ticket->website = $data['website'];
         $ticket->topic = $data['topic'];
         $ticket->content = $data['content'];
-        $ticket->status = 'New';
+        $ticket->status = $newStatus;
         $ticket->code = $creator->code;
         $ticket->save();
 

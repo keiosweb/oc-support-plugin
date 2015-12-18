@@ -5,7 +5,8 @@
 fields:
     priority:
         label: Priority
-        type: dropdown
+        type: relation
+        selectFrom: name
         span: left
     user:
         label: Assigned user
@@ -34,4 +35,5 @@ fields:
         type: richeditor
     status:
         label: Status
-        type: dropdown
+        type: relation
+        selectFrom: name

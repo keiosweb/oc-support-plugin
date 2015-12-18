@@ -3,16 +3,16 @@
 # ===================================
 
 # Model List Column configuration
-list: $/keios/support/models/ticketcreator/columns.yaml
+list: $/keios/support/models/ticketstatus/columns.yaml
 
 # Model Class name
-modelClass: Keios\Support\Models\TicketCreator
+modelClass: Keios\Support\Models\TicketStatus
 
 # List Title
-title: keios.support::lang.ticketcreator.list_title
+title: keios.support::lang.ticketstatus.list_title
 
 # Link URL for each record
-recordUrl: keios/support/ticketcreators/update/:id
+recordUrl: keios/support/ticketstatuses/update/:id
 
 # Message to display if the list is empty
 noRecordsMessage: backend::lang.list.no_records
@@ -32,7 +32,7 @@ showSorting: true
 #     direction: desc
 
 # Display checkboxes next to each record
-showCheckboxes: true
+# showCheckboxes: true
 
 # Toolbar widget configuration
 toolbar:

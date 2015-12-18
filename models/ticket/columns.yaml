@@ -5,8 +5,16 @@
 columns:
     priority:
         label: Priority
+        relation: priority
+        valueFrom: name
+    status:
+        label: Status
+        relation: status
+        valueFrom: name
     user:
         label: Assigned user
+        relation: user
+        valueFrom: email
     hash_id:
         label: Hash ID
     creator:
@@ -15,8 +23,5 @@ columns:
         valueFrom: email
     category:
         label: Category
-        type: relation
+        relation: category
         valueFrom: name
-    status:
-        label: Status
-        type: dropdown

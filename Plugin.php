@@ -104,6 +104,16 @@ class Plugin extends PluginBase
                         'url'   => Backend::url('keios/support/ticketcreators'),
                         'icon'  => 'icon-users',
                     ],
+                    'ticketstatuses'   => [
+                        'label' => 'keios.support::lang.app.ticketstatuses',
+                        'url'   => Backend::url('keios/support/ticketstatuses'),
+                        'icon'  => 'icon-star',
+                    ],
+                    'ticketpriorities'   => [
+                        'label' => 'keios.support::lang.app.ticketpriorities',
+                        'url'   => Backend::url('keios/support/ticketpriorities'),
+                        'icon'  => 'icon-star',
+                    ],
                 ],
             ],
         ];

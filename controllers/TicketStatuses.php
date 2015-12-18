@@ -3,13 +3,12 @@
 use BackendMenu;
 use Backend\Classes\Controller;
 use Flash;
-use Keios\Support\Models\TicketComment;
 use Lang;
 
 /**
- * Ticket Comments Back-end Controller
+ * Ticket Statuses Back-end Controller
  */
-class TicketComments extends Controller
+class TicketStatuses extends Controller
 {
     public $implement = [
         'Backend.Behaviors.FormController',
@@ -23,25 +22,25 @@ class TicketComments extends Controller
     {
         parent::__construct();
 
-        BackendMenu::setContext('Keios.Support', 'support', 'ticketcomments');
+        BackendMenu::setContext('Keios.Support', 'support', 'ticketstatuses');
     }
 
     /**
-     * Deleted checked ticketcomments.
+     * Deleted checked ticketstatuses.
      */
     public function index_onDelete()
     {
         if (($checkedIds = post('checked')) && is_array($checkedIds) && count($checkedIds)) {
 
-            foreach ($checkedIds as $ticketcommentId) {
-                if (!$ticketcomment = TicketComment::find($ticketcommentId)) continue;
-                $ticketcomment->delete();
+            foreach ($checkedIds as $ticketstatusId) {
+                if (!$ticketstatus = TicketStatus::find($ticketstatusId)) continue;
+                $ticketstatus->delete();
             }
 
-            Flash::success(Lang::get('keios.support::lang.ticketcomments.delete_selected_success'));
+            Flash::success(Lang::get('keios.support::lang.ticketstatuses.delete_selected_success'));
         }
         else {
-            Flash::error(Lang::get('keios.support::lang.ticketcomments.delete_selected_empty'));
+            Flash::error(Lang::get('keios.support::lang.ticketstatuses.delete_selected_empty'));
         }
 
         return $this->listRefresh();

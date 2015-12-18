@@ -2,5 +2,8 @@
     - initial version
     - create_ticket_categories_table.php
     - create_ticket_comments_table.php
+    - create_ticket_priorities_table.php
+    - create_ticket_statuses_table.php
     - create_ticket_creators_table.php
     - create_tickets_table.php
+    - seed_all_tables.php

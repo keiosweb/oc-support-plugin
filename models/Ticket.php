@@ -30,6 +30,8 @@ class Ticket extends Model
      */
     public $belongsTo = [
         'category' => 'Keios\Support\Models\TicketCategory',
+        'priority' => 'Keios\Support\Models\TicketPriority',
+        'status'   => 'Keios\Support\Models\TicketStatus',
         'creator'  => 'Keios\Support\Models\TicketCreator',
         'user'     => 'Backend\Models\User',
     ];
@@ -52,38 +54,6 @@ class Ticket extends Model
             'otherKey' => 'comment_id',
         ],
     ];
-
-    /**
-     * @return array
-     */
-    public function getPriorityOptions()
-    {
-        return [
-            'Low'             => 'Low',
-            'Medium'          => 'Medium',
-            'High'            => 'High',
-            'Critical'        => 'Critical',
-            'Feature Request' => 'Feature Request',
-            'Training'        => 'Training',
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function getStatusOptions()
-    {
-        return [
-            'New'                    => 'New',
-            'Assigned'               => 'Assigned',
-            'Awaiting Feedback'      => 'Awaiting Feedback',
-            'Reported to developers' => 'Reported to developers',
-            'Pending'                => 'Pending',
-            'Rejected'               => 'Rejected',
-            'Resolved'               => 'Resolved',
-            'Canceled'               => 'Canceled',
-        ];
-    }
 
     /**
      * @return mixed

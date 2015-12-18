@@ -18,6 +18,7 @@ class CreateTicketsTable extends Migration
             function (Blueprint $table) {
                 $table->engine = 'InnoDB';
                 $table->increments('id');
+                $table->string('name')->nullable();
                 $table->string('hash_id');
                 $table->integer('category_id');
                 $table->integer('creator_id');
@@ -26,9 +27,9 @@ class CreateTicketsTable extends Migration
                 $table->string('website')->nullable();
                 $table->string('topic');
                 $table->longText('content');
-                $table->string('status');
+                $table->integer('status_id')->default(1);
                 $table->string('code');
-                $table->string('priority')->nullable();
+                $table->integer('priority_id')->default(1);
                 $table->timestamps();
             }
         );
