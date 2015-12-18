@@ -3,6 +3,13 @@
 # ===================================
 
 columns:
-    id:
-        label: ID
-        searchable: true
+    author:
+        label: Author
+    content:
+        label: Comment
+        type: text
+    is_support:
+        label: Support
+        type: switch
+    created_at:
+        label: Created

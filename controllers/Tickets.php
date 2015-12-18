@@ -12,11 +12,14 @@ class Tickets extends Controller
 {
     public $implement = [
         'Backend.Behaviors.FormController',
-        'Backend.Behaviors.ListController'
+        'Backend.Behaviors.ListController',
+        'Backend.Behaviors.RelationController',
     ];
 
     public $formConfig = 'config_form.yaml';
     public $listConfig = 'config_list.yaml';
+    public $relationConfig = 'config_relation.yaml';
+
 
     public function __construct()
     {
@@ -33,13 +36,14 @@ class Tickets extends Controller
         if (($checkedIds = post('checked')) && is_array($checkedIds) && count($checkedIds)) {
 
             foreach ($checkedIds as $ticketId) {
-                if (!$ticket = Ticket::find($ticketId)) continue;
+                if (!$ticket = Ticket::find($ticketId)) {
+                    continue;
+                }
                 $ticket->delete();
             }
 
             Flash::success(Lang::get('keios.support::lang.tickets.delete_selected_success'));
-        }
-        else {
+        } else {
             Flash::error(Lang::get('keios.support::lang.tickets.delete_selected_empty'));
         }
 

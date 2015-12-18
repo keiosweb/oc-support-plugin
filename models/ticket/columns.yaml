@@ -1,25 +1,22 @@
 # ===================================
-#  List Column Definitions
+#  Form Field Definitions
 # ===================================
 
 columns:
-    id:
-        label: ID
-        searchable: true
+    priority:
+        label: Priority
+    user:
+        label: Assigned user
     hash_id:
         label: Hash ID
-        type: text
     creator:
         label: Ticket Creator
         relation: creator
-        selectFrom: email
-    category_id:
+        valueFrom: email
+    category:
         label: Category
-        relation: category
-        selectFrom: title
-    topic:
-        label: Topic
-        type: text
-    content:
-        label: Content
-        type: richeditor
+        type: relation
+        valueFrom: name
+    status:
+        label: Status
+        type: dropdown

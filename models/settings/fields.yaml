@@ -1,8 +1,7 @@
 # ===================================
 #  Form Field Definitions
 # ===================================
-
 fields:
-    name:
-        label: Name
+    address:
+        label: Full ticket page address (eg http://this.domain.com/ticket/)
         type: text

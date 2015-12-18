@@ -1,4 +1,5 @@
 1.0.1:
+    - initial version
     - create_ticket_categories_table.php
     - create_ticket_comments_table.php
     - create_ticket_creators_table.php

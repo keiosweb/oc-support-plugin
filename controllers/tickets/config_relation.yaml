@@ -1,0 +1,13 @@
+# ===================================
+#  Relation Behavior Config
+# ===================================
+
+comments:
+    label: Comments
+    view:
+        list: ~/plugins/keios/support/models/ticketcomment/columns.yaml
+        toolbarButtons: create|delete
+        showSearch: true
+    manage:
+        list: ~/plugins/keios/support/models/ticketcomment/columns.yaml
+        form: ~/plugins/keios/support/models/ticketcomment/fields.yaml

@@ -1,3 +1,29 @@
-<p>This is the default markup for component TicketForm</p>
-
-<small>You can delete this file if you want</small>
+<div class="col-sm-6 col-sm-offset-3">
+    <h3>{{ 'Create a new ticket'|_ }}</h3>
+    <div id="new-ticket-container">
+        <form data-request="onTicketCreate">
+            <input title="Name" class="form-control" type="text" placeholder="{{ 'Your name'|_ }}" id="creator_name"
+                   name="name"/>
+            <br/>
+            <input title="E-mail" class="form-control" type="text" placeholder="{{ 'Your e-mail'|_ }}"
+                   id="creator_email" name="email"/>
+            <br/>
+            <input title="Website" class="form-control" type="text" placeholder="{{ 'Your website'|_ }}" id="website"
+                   name="website"/>
+            <br/>
+            <select title="Category" class="form-control" id="category" name="category">
+                <option value="">{{ 'Please select category'|_ }}</option>
+                {% for title,id in categories %}
+                    <option value="{{ id }}">{{ title }}</option>
+                {% endfor %}
+            </select>
+            <br/>
+            <input title="Website" class="form-control" type="text" placeholder="{{ 'Topic'|_ }}" id="topic"
+                   name="topic"/>
+            <label for="content">{{ 'Description'|_ }}</label>
+            <textarea class="form-control" name="content" id="content"></textarea>
+            <br/>
+            <button type="submit" class="btn btn-primary">{{ 'Submit'|_ }}</button>
+        </form>
+    </div>
+</div>

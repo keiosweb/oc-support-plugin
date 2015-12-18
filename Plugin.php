@@ -24,6 +24,21 @@ class Plugin extends PluginBase
         ];
     }
 
+    /**
+     * @return array
+     */
+    public function registerSettings()
+    {
+        return [
+            'settings' => [
+                'label' => 'Support Settings',
+                'description' => 'Setup Ticket System',
+                'icon' => 'icon-life-ring',
+                'class' => 'Keios\Support\Models\Settings',
+                'order' => 600
+            ]
+        ];
+    }
 
     /**
      * @return array
@@ -41,24 +56,48 @@ class Plugin extends PluginBase
     /**
      * @return array
      */
+    public function registerMailTemplates()
+    {
+        return [
+            'keios.support::mail.ticket.first'          => trans(
+                'keios.support::lang.mailer.first'
+            ),
+            'keios.support::mail.ticket.create'         => trans(
+                'keios.support::lang.mailer.create'
+            ),
+            'keios.support::mail.ticket.update'         => trans(
+                'keios.support::lang.mailer.update'
+            ),
+            'keios.support::mail.ticket.close'          => trans(
+                'keios.support::lang.mailer.close'
+            ),
+            'keios.support::mail.account.code_recovery' => trans(
+                'keios.support::lang.mailer.code_recover'
+            ),
+        ];
+    }
+
+    /**
+     * @return array
+     */
     public function registerNavigation()
     {
         return [
             'support' => [
                 'label'    => 'Support',
                 'url'      => Backend::url('keios/support/tickets'),
-                'icon'     => 'icon-help',
+                'icon'     => 'icon-life-ring',
                 'order'    => 500,
                 'sideMenu' => [
                     'tickets'          => [
                         'label' => 'keios.support::lang.app.tickets',
                         'url'   => Backend::url('keios/support/tickets'),
-                        'icon'  => 'icon-globe',
+                        'icon'  => 'icon-ticket',
                     ],
                     'ticketcategories' => [
                         'label' => 'keios.support::lang.app.ticketcategories',
                         'url'   => Backend::url('keios/support/ticketcategories'),
-                        'icon'  => 'icon-globe',
+                        'icon'  => 'icon-folder-o',
                     ],
                     'ticketcreators'   => [
                         'label' => 'keios.support::lang.app.ticketcreators',

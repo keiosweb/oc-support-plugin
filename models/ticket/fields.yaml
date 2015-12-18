@@ -3,26 +3,35 @@
 # ===================================
 
 fields:
-    id:
-        label: ID
-        disabled: true
-    id:
-        label: ID
-        searchable: true
+    priority:
+        label: Priority
+        type: dropdown
+        span: left
+    user:
+        label: Assigned user
+        type: dropdown
+        span: right
     hash_id:
         label: Hash ID
         type: text
+        span: left
     creator:
         label: Ticket Creator
         type: relation
-        valueFrom: email
-    category:
-        label: Category
-        type: relation
-        valueFrom: title
+        selectFrom: email
+        span: right
     topic:
         label: Topic
         type: text
+        span: left
+    category:
+        label: Category
+        type: relation
+        selectFrom: name
+        span: right
     content:
         label: Content
         type: richeditor
+    status:
+        label: Status
+        type: dropdown
