@@ -1,0 +1,28 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    id:
+        label: ID
+        disabled: true
+    id:
+        label: ID
+        searchable: true
+    hash_id:
+        label: Hash ID
+        type: text
+    creator:
+        label: Ticket Creator
+        type: relation
+        valueFrom: email
+    category:
+        label: Category
+        type: relation
+        valueFrom: title
+    topic:
+        label: Topic
+        type: text
+    content:
+        label: Content
+        type: richeditor

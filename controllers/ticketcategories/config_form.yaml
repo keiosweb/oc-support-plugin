@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: keios.support::lang.ticketcategory.label
+
+# Model Form Field configuration
+form: $/keios/support/models/ticketcategory/fields.yaml
+
+# Model Class name
+modelClass: Keios\Support\Models\TicketCategory
+
+# Default redirect location
+defaultRedirect: keios/support/ticketcategories
+
+# Create page
+create:
+    title: keios.support::lang.ticketcategory.create_title
+    redirect: keios/support/ticketcategories/update/:id
+    redirectClose: keios/support/ticketcategories
+
+# Update page
+update:
+    title: keios.support::lang.ticketcategory.update_title
+    redirect: keios/support/ticketcategories
+    redirectClose: keios/support/ticketcategories
+
+# Preview page
+preview:
+    title: keios.support::lang.ticketcategory.preview_title

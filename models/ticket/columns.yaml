@@ -1,0 +1,25 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    id:
+        label: ID
+        searchable: true
+    hash_id:
+        label: Hash ID
+        type: text
+    creator:
+        label: Ticket Creator
+        relation: creator
+        selectFrom: email
+    category_id:
+        label: Category
+        relation: category
+        selectFrom: title
+    topic:
+        label: Topic
+        type: text
+    content:
+        label: Content
+        type: richeditor

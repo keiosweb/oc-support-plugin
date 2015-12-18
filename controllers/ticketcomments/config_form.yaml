@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: keios.support::lang.ticketcomment.label
+
+# Model Form Field configuration
+form: $/keios/support/models/ticketcomment/fields.yaml
+
+# Model Class name
+modelClass: Keios\Support\Models\TicketComment
+
+# Default redirect location
+defaultRedirect: keios/support/ticketcomments
+
+# Create page
+create:
+    title: keios.support::lang.ticketcomment.create_title
+    redirect: keios/support/ticketcomments/update/:id
+    redirectClose: keios/support/ticketcomments
+
+# Update page
+update:
+    title: keios.support::lang.ticketcomment.update_title
+    redirect: keios/support/ticketcomments
+    redirectClose: keios/support/ticketcomments
+
+# Preview page
+preview:
+    title: keios.support::lang.ticketcomment.preview_title
