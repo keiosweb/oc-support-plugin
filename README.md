@@ -17,7 +17,7 @@ Plugin requires Rainlab Translate plugin and either [Keios ProUser](https://lab.
     cd /path/to/your/octobercms/plugins
     mkdir keios
     cd keios
-    git clone https://lab.keios.eu/october_plugins/keios-support.git support
+    git clone https://github.com/keiosweb/oc-support-plugin.git support
     cd support
     composer update
     cd ../../..
