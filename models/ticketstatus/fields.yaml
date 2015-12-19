@@ -4,5 +4,4 @@
 
 fields:
     name:
-        label: Name
-        searchable: true
+        label: keios.support::lang.fields.name

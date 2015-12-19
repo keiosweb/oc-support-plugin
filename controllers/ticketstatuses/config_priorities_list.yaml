@@ -3,16 +3,16 @@
 # ===================================
 
 # Model List Column configuration
-list: $/keios/support/models/ticketstatus/columns.yaml
+list: $/keios/support/models/ticketpriority/columns.yaml
 
 # Model Class name
-modelClass: Keios\Support\Models\TicketStatus
+modelClass: Keios\Support\Models\TicketPriority
 
 # List Title
-title: keios.support::lang.ticketstatus.list_title
+title: keios.support::lang.ticketpriority.list_title
 
 # Link URL for each record
-recordUrl: keios/support/ticketstatuses/update/:id
+recordUrl: keios/support/ticketpriorities/update/:id
 
 # Message to display if the list is empty
 noRecordsMessage: backend::lang.list.no_records
@@ -37,7 +37,7 @@ showCheckboxes: true
 # Toolbar widget configuration
 toolbar:
     # Partial for toolbar buttons
-    buttons: list_toolbar
+    buttons: list_priorities_toolbar
 
     # Search widget configuration
     search:

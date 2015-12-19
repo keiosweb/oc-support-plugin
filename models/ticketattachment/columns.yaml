@@ -5,26 +5,27 @@
 columns:
 
   ticket_id:
-    label: Ticket ID
+    label: keios.support::lang.fields.ticket_id
+    searchable: true
 
   file_name:
-    label: File name
+    label: keios.support::lang.fields.file_name
     searchable: true
 
   file_path:
-    label: File path
+    label: keios.support::lang.fields.file_path
     searchable: true
 
   file_size:
-    label: File size
+    label: keios.support::lang.fields.file_size
     searchable: false
 
   created_at:
-    label: Created at
+    label: keios.support::lang.fields.created_at
     type: date
     invisible: true
 
   updated_at:
-    label: Updated at
+    label: keios.support::lang.fields.updated_at
     type: date
     invisible: true
