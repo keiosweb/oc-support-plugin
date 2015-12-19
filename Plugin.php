@@ -13,7 +13,9 @@ class Plugin extends PluginBase
      * @var array
      */
     public $require = [
-        'Keios.ProUser',
+      //  One of these two is required
+      //  'Keios.ProUser',
+      //  'RainLab.User',
         'RainLab.Translate',
     ];
 

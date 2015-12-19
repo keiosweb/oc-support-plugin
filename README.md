@@ -49,7 +49,7 @@ Component requires page with slug (eg /ticket/:hash). This slug, as well as page
 
 #### Settings
 
-Currently in Settings -> Support Settings there is only one field - *Full ticket page address*. You should enter there a fully qualified address of your ticket page (for example *https://my.company.com/ticket-status/)
+Currently in Settings -> Support Settings there is only one field - *Full ticket page address*. You should enter there a fully qualified address of your ticket page (for example https://my.company.com/ticket-status/)
 
 
 ## Tickets Management
