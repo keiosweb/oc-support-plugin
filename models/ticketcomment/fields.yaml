@@ -3,8 +3,14 @@
 # ===================================
 
 fields:
-    id:
-        label: ID
-        disabled: true
+    author:
+        label: Author
+        type: dropdown
     content:
         label: Content
+        type: richeditor
+    is_support:
+        label: Support
+        type: switch
+        default: true
+        span: left

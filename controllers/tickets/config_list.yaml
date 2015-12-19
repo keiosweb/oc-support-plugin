@@ -26,13 +26,16 @@ showSetup: true
 # Displays the sorting link on each column
 showSorting: true
 
+# Defines filter config
+filter: config_filter.yaml
+
 # Default sorting column
 # defaultSort:
 #     column: created_at
 #     direction: desc
 
 # Display checkboxes next to each record
-# showCheckboxes: true
+showCheckboxes: true
 
 # Toolbar widget configuration
 toolbar:

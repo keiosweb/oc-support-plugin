@@ -17,6 +17,8 @@ class CreateTicketCommentsTable extends Migration
         {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->string('author');
+            $table->boolean('is_support')->default(false);
             $table->longText('content');
             $table->timestamps();
         });

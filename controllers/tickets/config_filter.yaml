@@ -1,0 +1,25 @@
+# ===================================
+# Filter Scope Definitions
+# ===================================
+
+scopes:
+    user:
+        label: Assignee
+        modelClass: Backend\Models\User
+        nameFrom: email
+        conditions: user_id in (:filtered)
+    category:
+        label: Category
+        modelClass: Keios\Support\Models\TicketCategory
+        nameFrom: name
+        conditions: category_id in (:filtered)
+    status:
+        label: Status
+        modelClass: Keios\Support\Models\TicketStatus
+        nameFrom: name
+        conditions: status_id in (:filtered)
+    priority:
+        label: Priority
+        modelClass: Keios\Support\Models\TicketPriority
+        nameFrom: name
+        conditions: priority_id in (:filtered)

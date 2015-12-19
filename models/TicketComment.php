@@ -1,5 +1,6 @@
 <?php namespace Keios\Support\Models;
 
+use Backend\Facades\BackendAuth;
 use Model;
 
 /**
@@ -21,21 +22,26 @@ class TicketComment extends Model
     /**
      * @var array Fillable fields
      */
-    protected $fillable = [];
+    protected $fillable = ['author', 'is_support', 'content'];
+
 
     /**
-     * @var array Relations
+     * @var array
      */
-    public $hasOne = [];
-    public $hasMany = [];
     public $belongsTo = [
-        'ticket' => 'Keios\Support\Models\Ticket'
+        'ticket' => 'Keios\Support\Models\Ticket',
     ];
-    public $belongsToMany = [];
-    public $morphTo = [];
-    public $morphOne = [];
-    public $morphMany = [];
-    public $attachOne = [];
-    public $attachMany = [];
 
+    /**
+     * Provides strings to be used as user signature
+     *
+     * @return array
+     */
+    public function getAuthorOptions()
+    {
+        $user = BackendAuth::getUser();
+        $userEntry = $user->first_name.' '.$user->last_name.' ('.$user->email.')';
+
+        return [$userEntry => $userEntry];
+    }
 }

@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: keios.support::lang.ticketstatus.label
+
+# Model Form Field configuration
+form: $/keios/support/models/ticketstatus/fields.yaml
+
+# Model Class name
+modelClass: Keios\Support\Models\TicketStatus
+
+# Default redirect location
+defaultRedirect: keios/support/ticketstatuses
+
+# Create page
+create:
+    title: keios.support::lang.ticketstatus.create_title
+    redirect: keios/support/ticketstatuses/update/:id
+    redirectClose: keios/support/ticketstatuses
+
+# Update page
+update:
+    title: keios.support::lang.ticketstatus.update_title
+    redirect: keios/support/ticketstatuses
+    redirectClose: keios/support/ticketstatuses
+
+# Preview page
+preview:
+    title: keios.support::lang.ticketstatus.preview_title

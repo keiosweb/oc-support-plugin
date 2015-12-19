@@ -1,3 +1,35 @@
-<p>This is the default markup for component TicketForm</p>
+<script type="application/javascript" src="/plugins/keios/support/assets/js/tinymce/tinymce.min.js"></script>
+<div class="col-sm-6 col-sm-offset-3">
+    <h3>{{ 'Create a new ticket'|_ }}</h3>
+    <div id="new-ticket-container">
+        <form data-request="onTicketCreate">
+            <label for="website">{{ 'Website'|_ }}</label>
+            <input class="form-control" type="text" placeholder="{{ 'Your website'|_ }}" id="website"
+                   name="website"/>
+            <br/>
+            <label for="category">{{ 'Category'|_ }}</label>
+            <select class="form-control" id="category" name="category">
+                <option value="">{{ 'Please select category'|_ }}</option>
+                {% for title,id in categories %}
+                    <option value="{{ id }}">{{ title }}</option>
+                {% endfor %}
+            </select>
+            <br/>
+            <label for="topic">{{ 'Ticket topic'|_ }}</label>
+            <input class="form-control" type="text" placeholder="{{ 'Please enter topic'|_ }}" id="topic"
+                   name="topic"/>
+            <br />
+            <label for="content">{{ 'Description'|_ }}</label>
+            <textarea class="form-control" name="content" id="content"></textarea>
+            <br/>
+            <button type="submit" class="btn btn-primary">{{ 'Submit'|_ }}</button>
+        </form>
+    </div>
+</div>
 
-<small>You can delete this file if you want</small>
+<script>
+    tinymce.init({
+        selector: '#content',
+        menubar: false
+    });
+</script>

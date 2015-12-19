@@ -3,6 +3,14 @@
 # ===================================
 
 columns:
-    id:
-        label: ID
-        searchable: true
+    author:
+        label: Author
+    content:
+        label: Comment
+        type: partial
+        path: ~/plugins/keios/support/controllers/tickets/_comment_content.htm
+    is_support:
+        label: Support
+        type: switch
+    created_at:
+        label: Created

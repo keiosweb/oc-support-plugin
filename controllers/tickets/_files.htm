@@ -1,0 +1,32 @@
+<br/>
+<?php $files = $this->vars['formModel']->files ?>
+<table class="table">
+    <thead>
+        <tr>
+            <td>
+                File
+            </td>
+            <td>
+                Uploaded at
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach($files as $file): ?>
+    <tr>
+        <td>
+            <a href="<?= $file->file_path; ?>"><?= $file->file_name ?></a>
+        </td>
+        <td>
+            <?= $file->created_at ?>
+        </td>
+    </tr>
+
+    <?php endforeach ?>
+    <?php if(count($files) == 0): ?>
+    <tr>
+        <td colspan="2">No files attached</td>
+    </tr>
+    <?php endif ?>
+    </tbody>
+</table>

@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: keios.support::lang.ticketpriority.label
+
+# Model Form Field configuration
+form: $/keios/support/models/ticketpriority/fields.yaml
+
+# Model Class name
+modelClass: Keios\Support\Models\TicketPriority
+
+# Default redirect location
+defaultRedirect: keios/support/ticketpriorities
+
+# Create page
+create:
+    title: keios.support::lang.ticketpriority.create_title
+    redirect: keios/support/ticketpriorities/update/:id
+    redirectClose: keios/support/ticketpriorities
+
+# Update page
+update:
+    title: keios.support::lang.ticketpriority.update_title
+    redirect: keios/support/ticketpriorities
+    redirectClose: keios/support/ticketpriorities
+
+# Preview page
+preview:
+    title: keios.support::lang.ticketpriority.preview_title

@@ -18,7 +18,7 @@ class CreateTicketCategoriesTable extends Migration
             function (Blueprint $table) {
                 $table->engine = 'InnoDB';
                 $table->increments('id');
-                $table->string('title');
+                $table->string('name');
                 $table->timestamps();
             }
         );

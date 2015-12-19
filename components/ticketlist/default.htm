@@ -1,3 +1,22 @@
-<p>This is the default markup for component TicketList</p>
-
-<small>You can delete this file if you want</small>
+<div id="ticket-list">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>{{ 'Ticket Number'|_ }}</th>
+            <th>{{ 'Ticket Topic'|_ }}</th>
+            <th>{{ 'Ticket Status' }}</th>
+            <th>{{ 'Last update' }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ticket in tickets %}
+            <tr>
+                <td><a href="{{ ticket_page }}/{{ ticket.hash_id }}">{{ ticket.hash_id }}</a></td>
+                <td>{{ ticket.topic }}</td>
+                <td>{{ ticket.status.name|_ }}</td>
+                <td>{{ ticket.updated_at }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

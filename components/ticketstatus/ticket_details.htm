@@ -1,0 +1,36 @@
+<h3 class="text-center">{{ 'Ticket'|_ }} {{ ticket.hash_id }}</h3>
+
+<h4>{{ 'Current Status'|_ }}: <b>{{ ticket.status.name|_ }}</b></h4>
+<h4>{{ 'Last Updated'|_ }}: <b>{{ ticket.updated_at }}</b></h4>
+
+<hr>
+<div class="panel panel-primary">
+    <div class="panel-header">
+        <h4 class="panel-heading">{{ ticket.topic }} <span
+                    class="pull-right">{{ 'Category:'|_ }} {{ ticket.category.name|_ }}</span></h4>
+
+    </div>
+    <div class="panel-body">
+        {{ ticket.content|raw }}
+    </div>
+</div>
+<hr>
+<div class="panel panel-primary">
+    <div class="panel-header">
+        <h4 class="panel-heading">{{ 'Comments'|_ }}</h4>
+    </div>
+    <div class="panel-body">
+        {% for comment in ticket.comments %}
+            <div class="">
+                <p class="comment_label">{{ 'Author'|_ }}: {{ comment.author }} <i class="pull-right">{{ comment.created_at }}</i></p>
+                {{ comment.content|raw }}
+            </div>
+            <hr>
+        {% else %}
+            <p>{{ 'No comments yet'|_ }}</p>
+            <hr>
+        {% endfor %}
+
+        <h4>{{ 'Comment added succesfuly!'|_ }}</h4>
+    </div>
+</div>

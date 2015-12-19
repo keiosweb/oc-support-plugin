@@ -3,6 +3,7 @@
 use BackendMenu;
 use Backend\Classes\Controller;
 use Flash;
+use Keios\Support\Models\Ticket;
 use Lang;
 
 /**
@@ -10,14 +11,32 @@ use Lang;
  */
 class Tickets extends Controller
 {
+    /**
+     * @var array
+     */
     public $implement = [
         'Backend.Behaviors.FormController',
-        'Backend.Behaviors.ListController'
+        'Backend.Behaviors.ListController',
+        'Backend.Behaviors.RelationController',
     ];
 
+    /**
+     * @var string
+     */
     public $formConfig = 'config_form.yaml';
+    /**
+     * @var string
+     */
     public $listConfig = 'config_list.yaml';
+    /**
+     * @var string
+     */
+    public $relationConfig = 'config_relation.yaml';
 
+
+    /**
+     * Tickets constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -26,20 +45,21 @@ class Tickets extends Controller
     }
 
     /**
-     * Deleted checked tickets.
+     * Deletes checked tickets.
      */
     public function index_onDelete()
     {
         if (($checkedIds = post('checked')) && is_array($checkedIds) && count($checkedIds)) {
 
             foreach ($checkedIds as $ticketId) {
-                if (!$ticket = Ticket::find($ticketId)) continue;
+                if (!$ticket = Ticket::find($ticketId)) {
+                    continue;
+                }
                 $ticket->delete();
             }
 
             Flash::success(Lang::get('keios.support::lang.tickets.delete_selected_success'));
-        }
-        else {
+        } else {
             Flash::error(Lang::get('keios.support::lang.tickets.delete_selected_empty'));
         }
 

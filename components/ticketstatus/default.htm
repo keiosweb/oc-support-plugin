@@ -1,3 +1,154 @@
-<p>This is the default markup for component TicketStatus</p>
+<style>
+    .comment_label {
+        font-size: 12px;
+        font-weight: bold;
+    }
 
-<small>You can delete this file if you want</small>
+</style>
+<script type="application/javascript" src="/plugins/keios/support/assets/js/tinymce/tinymce.min.js"></script>
+<div id="ticket-details">
+    <h3 class="text-center">{{ 'Ticket'|_ }} {{ ticket.hash_id }}</h3>
+    <p class="comment_label"><a href="/ticketlist">{{ 'Go to ticket list'|_ }}</a></p>
+
+    <h4>{{ 'Current Status'|_ }}: <b>{{ ticket.status.name|_ }}</b></h4>
+    <h4>{{ 'Last Updated'|_ }}: <b>{{ ticket.updated_at }}</b></h4>
+
+    <hr>
+    <div class="panel panel-primary">
+        <div class="panel-header">
+            <h4 class="panel-heading">{{ ticket.topic }} <span
+                        class="pull-right">{{ 'Category:'|_ }} {{ ticket.category.name|_ }}</span></h4>
+
+        </div>
+        <div class="panel-body">
+            {{ ticket.content|raw }}
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-6">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <td>{{ 'Attachment'|_ }}</td>
+                            <td>{{ 'Upload date'|_ }}</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for file in ticket_files %}
+                            <tr>
+                                <td><a href="{{ file.file_path }}">{{ file.file_name }}</a></td>
+                                <td>{{ file.created_at }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="2">{{ 'No file was attached to this ticket'|_ }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <div class="col-sm-6">
+                    <h4>{{ 'Attach File'|_ }}</h4>
+                    <div style="margin: 20px 0;">
+                        {{ form_open({ 'class': 'fileUpload', 'method': 'POST', 'files': 'true' }) }}
+                        <input type="hidden" name="ticket_id" value="{{ ticket.id }}"/>
+                        <input class="form-control" type="file" name="fileToUpload" style="padding-bottom: 40px;">
+                        <br>
+                        <button class="btn btn-primary" type="submit">{{ 'Upload'|_ }}</button>
+                        {{ form_close() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <hr>
+    <div class="panel panel-primary">
+        <div class="panel-header">
+            <h4 class="panel-heading">{{ 'Comments'|_ }}</h4>
+        </div>
+        <div class="panel-body">
+            {% for comment in ticket.comments %}
+                <div class="">
+                    <p class="comment_label">{{ 'Author'|_ }}: {{ comment.author }} <i
+                                class="pull-right">{{ comment.created_at }}</i></p>
+                    {{ comment.content|raw }}
+                </div>
+                <hr>
+            {% else %}
+                <p>{{ 'No comments yet'|_ }}</p>
+                <hr>
+            {% endfor %}
+
+            <h4>{{ 'Add Comment'|_ }}</h4>
+            <form method="post" data-request="onAddComment"
+                  data-request-update="'{{ __SELF__ }}::ticket_details': '#ticket-details'">
+                <input type="hidden" name="ticket_number" value="{{ ticket.hash_id }}"/>
+                <label for="comment_content">{{ 'Your comment'|_ }}</label>
+                <textarea class="form-control" id="comment_content" name="comment_content"></textarea>
+                <br/>
+                <button type="submit" class="btn btn-primary">{{ 'Submit'|_ }}</button>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+        $('document').ready(function () {
+            /* tinymce trigger */
+            tinymce.init({
+                selector: '#comment_content',
+                menubar: false
+            });
+            $('document').ready(function () {
+                /* file upload script */
+                //var i = 1;
+                $('form.fileUpload').submit(function () {
+                    var file_data = $(this).find('input[type="file"]').prop('files')[0];
+                    var form_data = new FormData();
+                    form_data.append('file', file_data);
+                    form_data.append('ticket_id', '{{ ticket.id }}');
+                    $.ajax({
+                        url: '{{ uploadPage }}',
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: form_data,
+                        type: 'post',
+                        success: function (data) {
+                            // display response
+
+                            var result = $.trim(data);
+                            result = JSON.parse(result.replace(/&quot;/g, '"'));
+                            if (result['status']) { // No errors
+                                location.reload();
+                                /*
+                                if (result['checkImg']) { // File is image
+                                    // Add markup code to div#results
+                                    var output = '![' + result['fileName'] + '][' + i + ']' + "<br><br>" + '[' + i + ']: ' + result['filePath'] + ' "' + result['fileName'] + '"' + "<br><br>";
+                                    var html = $('#results').html();
+                                }
+                                else {
+                                    // Add markup code to div#results
+                                    var output = '[' + result['fileName'] + '][' + i + ']' + "<br><br>" + '[' + i + ']: ' + result['filePath'] + "<br><br>";
+                                    var html = $('#results').html();
+                                }
+                                $('#results').html(html + output);
+                                i++;
+                                $('#ajax-messages').html(result['message']);
+                                */
+                            }
+                            else {
+                                $('#ajax-messages').html(result['message']);
+                            }
+                        }
+                    });
+                    return false;
+                });
+            });
+        });
+    </script>
+</div>

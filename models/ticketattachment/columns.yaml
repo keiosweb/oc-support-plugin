@@ -1,0 +1,30 @@
+# ===================================
+#  Column Definitions
+# ===================================
+
+columns:
+
+  ticket_id:
+    label: Ticket ID
+
+  file_name:
+    label: File name
+    searchable: true
+
+  file_path:
+    label: File path
+    searchable: true
+
+  file_size:
+    label: File size
+    searchable: false
+
+  created_at:
+    label: Created at
+    type: date
+    invisible: true
+
+  updated_at:
+    label: Updated at
+    type: date
+    invisible: true
