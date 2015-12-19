@@ -26,7 +26,10 @@ class TicketStatuses extends Controller
     /**
      * @var string
      */
-    public $listConfig = 'config_list.yaml';
+    public $listConfig = [
+        'ticket_statuses'   => 'config_list.yaml',
+        'ticket_priorities' => 'config_priorities_list.yaml',
+    ];
 
     /**
      * TicketStatuses constructor.

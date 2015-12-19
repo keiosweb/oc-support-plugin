@@ -4,58 +4,58 @@
 
 fields:
     hash_id@create:
-        label: Hash ID
+        label: keios.support::lang.fields.hash_id
         type: text
         span: left
         disabled: true
     hash_id@update:
-        label: Hash Id
+        label: keios.support::lang.fields.hash_id
         type: partial
         span: left
     creator@create:
-        label: Ticket Creator
+        label: keios.support::lang.fields.ticket_creator
         type: relation
         nameFrom: email
         span: right
     creator@update:
-        label: Ticket Creator
+        label: keios.support::lang.fields.ticket_creator
         type: partial
         span: right
     priority:
-        label: Priority
+        label: keios.support::lang.fields.priority
         type: relation
         selectFrom: name
         span: left
     user:
-        label: Assigned user
+        label: keios.support::lang.fields.assigned_user
         type: dropdown
         span: right
     status:
-        label: Status
+        label: keios.support::lang.fields.status
         type: relation
         selectFrom: name
         span: left
     category:
-        label: Category
+        label: keios.support::lang.fields.category
         type: relation
         selectFrom: name
         span: right
     topic:
-        label: Topic
+        label: keios.support::lang.fields.topic
         type: text
         span: left
     files:
-        label: Files
+        label: keios.support::lang.fields.files
         type: partial
         span: right
     content@create:
-        label: Content
+        label: keios.support::lang.fields.content
         type: richeditor
         span: left
     content@update:
-        label: Content
+        label: keios.support::lang.fields.content
         type: partial
         span: left
     comments:
-        label: Comments
+        label: keios.support::lang.fields.comments
         type: partial

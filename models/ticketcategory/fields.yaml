@@ -4,5 +4,5 @@
 
 fields:
     name:
-        label: Name
+        label: keios.support::lang.fields.names
         type: text

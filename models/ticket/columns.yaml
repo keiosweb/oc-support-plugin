@@ -4,30 +4,30 @@
 
 columns:
     hash_id:
-        label: Number
+        label: keios.support::lang.fields.number
     priority:
-        label: Priority
+        label: keios.support::lang.fields.priority
         relation: priority
         valueFrom: name
     status:
-        label: Status
+        label: keios.support::lang.fields.status
         relation: status
         valueFrom: name
     user:
-        label: Assigned user
+        label: keios.support::lang.fields.assigned_user
         relation: user
         valueFrom: email
     hash_id:
-        label: Hash ID
+        label: keios.support::lang.fields.hash_id
     creator:
-        label: Ticket Creator
+        label: keios.support::lang.fields.ticket_creator
         relation: creator
         valueFrom: email
     category:
-        label: Category
+        label: keios.support::lang.fields.category
         relation: category
         valueFrom: name
     created_at:
-        label: Created at
+        label: keios.support::lang.fields.created_at
     updated_at:
-        label: Updated at
+        label: keios.support::lang.fields.updated_at

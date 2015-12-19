@@ -4,13 +4,13 @@
 
 fields:
     author:
-        label: Author
+        label: keios.support::lang.fields.author
         type: dropdown
     content:
-        label: Content
+        label: keios.support::lang.fields.content
         type: richeditor
     is_support:
-        label: Support
+        label: keios.support::lang.fields.is_support
         type: switch
         default: true
         span: left

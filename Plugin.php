@@ -125,16 +125,10 @@ class Plugin extends PluginBase
                         'icon'        => 'icon-folder',
                     ],
                     'ticketstatuses'   => [
-                        'label'       => 'keios.support::lang.app.ticketstatuses',
+                        'label'       => 'keios.support::lang.app.ticketstatusesandpriorities',
                         'url'         => Backend::url('keios/support/ticketstatuses'),
                         'permissions' => ['keios.support.statuses'],
                         'icon'        => 'icon-flag',
-                    ],
-                    'ticketpriorities' => [
-                        'label'       => 'keios.support::lang.app.ticketpriorities',
-                        'url'         => Backend::url('keios/support/ticketpriorities'),
-                        'permissions' => ['keios.support.priorities'],
-                        'icon'        => 'icon-star',
                     ],
                 ],
             ],

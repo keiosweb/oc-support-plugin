@@ -82,10 +82,15 @@ Plugin includes lang files for English and Polish. Frontend content can be trans
 
 There is still a lot to do, most important points are:
 
+**High priority**
+
 - Separation of supporters (eg basic permissions allow only to see tickets that are new or assigned to self)
 - Adding files from backend and better backend file management
+- Tickets account (assigning customer given number of ticket and rejecting those above quota)
 - Ticket updates messages in comments section
 - Mailing upgrade - different email templates for different update types, mailing full comments content etc
-- Fully translatable controllers (lang strings)
-- Joining Statuses and Priorities into one controller
+
+**Low priority**
+
 - Preparation of default generic OctoberCMS theme
+- Internal tickets (where ticket creator is backend user) (?)

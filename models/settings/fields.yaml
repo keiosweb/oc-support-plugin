@@ -3,5 +3,5 @@
 # ===================================
 fields:
     address:
-        label: Full ticket page address (eg http://this.domain.com/ticket/)
+        label: keios.support::lang.settings.address
         type: text

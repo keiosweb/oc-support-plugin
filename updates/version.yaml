@@ -19,3 +19,4 @@
 1.4.0:
     - Frontend file upload
     - Backend file links
+    - Statuses and Priorities merged into one controller
