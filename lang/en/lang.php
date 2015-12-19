@@ -32,7 +32,7 @@ return [
         ],
         'ticketlist'   => [
             'name'        => 'TicketList Component',
-            'description' => 'Lists all tickets for given email and code',
+            'description' => 'Lists all tickets for logged user',
         ],
     ],
     'ticketcategories' => [
@@ -50,22 +50,6 @@ return [
         'create_title'  => 'Create Ticket Category',
         'update_title'  => 'Edit Ticket Category',
         'preview_title' => 'Preview Ticket Category',
-    ],
-    'ticketcreators'   => [
-        'menu_label'              => 'Ticket Creators',
-        'delete_confirm'          => 'Do you really want to delete this ticket creator?',
-        'return_to_list'          => 'Return to Ticket Creators',
-        'delete_selected_confirm' => 'Delete the selected ticket creators?',
-        'delete_selected_success' => 'Successfully deleted the selected ticket creators.',
-        'delete_selected_empty'   => 'There are no selected :name to delete.',
-    ],
-    'ticketcreator'    => [
-        'new'           => 'New Ticket Creator',
-        'list_title'    => 'Manage Ticket Creators',
-        'label'         => 'Ticket Creator',
-        'create_title'  => 'Create Ticket Creator',
-        'update_title'  => 'Edit Ticket Creator',
-        'preview_title' => 'Preview Ticket Creator',
     ],
     'ticketcomments'   => [
         'menu_label'              => 'Ticket Comments',
@@ -158,7 +142,8 @@ return [
         'priorities' => 'Access to ticket priorities',
         'settings'   => 'Access to settings',
     ],
-    'support'          => [
-        'list_title' => 'Tickets',
+    'upload'           => [
+        'delete_confirm' => 'Are you sure you want to remove these attachments?',
+        'list_title'     => 'Attachments',
     ],
 ];

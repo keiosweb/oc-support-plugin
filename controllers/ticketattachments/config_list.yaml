@@ -9,7 +9,7 @@ list: ~/plugins/keios/support/models/ticketattachment/columns.yaml
 modelClass: Keios\Support\Models\TicketAttachment
 
 # List Title
-title: keios.support::lang.support.list_title
+title: keios.support::lang.upload.list_title
 
 # Message to display if the list is empty
 noRecordsMessage: backend::lang.list.no_records
