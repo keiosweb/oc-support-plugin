@@ -20,7 +20,7 @@ class TicketAttachments extends Controller
         'Backend.Behaviors.ListController',
     ];
 
-    //public $formConfig = 'config_form.yaml';
+    //public $formConfig = 'config_form.yaml'; //todo - probably?
     /**
      * @var string
      */

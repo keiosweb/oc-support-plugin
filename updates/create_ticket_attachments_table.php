@@ -18,14 +18,12 @@ class CreateTicketAttachmentsTable extends Migration
             function (Blueprint $table) {
                 $table->engine = 'InnoDB';
                 $table->increments('id');
-                $table->integer('ticket_id');
                 $table->string('file_name');
                 $table->string('file_path');
                 $table->integer('file_size');
                 $table->string('content_type');
+                $table->integer('ticket_id');
                 $table->integer('user_id')->unsigned()->nullable()->index();
-                $table->string('title')->nullable();
-                $table->text('description')->nullable();
                 $table->timestamps();
             }
         );

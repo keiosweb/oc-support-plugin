@@ -3,6 +3,7 @@
 use BackendAuth;
 use Keios\Support\Models\TicketAttachment;
 use Cms\Classes\ComponentBase;
+use DB;
 
 /**
  * Class Upload
@@ -34,19 +35,14 @@ class Upload extends ComponentBase
                 'default'     => '',
                 'type'        => 'string',
             ],
-            'fileType'   => [
-                'title'       => 'keios.support::lang.settings.file_type',
-                'description' => 'keios.support::lang.settings.file_type_description',
-                'type'        => 'dropdown',
-                'default'     => '0',
-                'options'     => ['0' => 'Files', '1' => 'Images'],
-            ],
         ];
     }
 
 
     /**
+     * Gets the post message and saves the file.
      *
+     * @throws \Exception
      */
     public function onRender()
     {
@@ -55,96 +51,84 @@ class Upload extends ComponentBase
             $user = BackendAuth::getUser();
             $currDate = date("Y-m-d");
             if (isset($user) && !empty($user)) {
-                $uid = post('ticket_id');
+                $tid = post('ticket_id');
             } else {
-                $uid = 0;
+                $tid = 0;
             }
+
             $basePath = base_path();
-
             $uploadPath = $basePath.'/storage/app/uploads/';
-
-            if (!empty($uploadPath)) {
-                $uploadDir = $uploadPath.$uid.'/'.$currDate.'/';
-                $this->page['uploadPath'] = $uploadPath.$uid.'/'.$currDate.'/';
-            } else {
-                $uploadDir = $_SERVER['DOCUMENT_ROOT'].'/uploads/'.$uid.'/'.$currDate.'/';
-                $this->page['uploadPath'] = '/uploads/'.$uid.'/'.$currDate.'/';
-            }
+            $uploadDir = $uploadPath.$tid.'/'.$currDate.'/';
+            $this->page['uploadPath'] = $uploadPath.$tid.'/'.$currDate.'/';
 
             if (!file_exists($uploadDir)) {
                 $dirExist = mkdir($uploadDir, 0777, true);
-            } else {
-                $dirExist = true;
-            }
-
-            if ($dirExist) {
-
-                $file = $_FILES['file'];
-                $fileName = $file["name"];
-                if ($file["error"] > 0) {
-                    // Error!
-                    $res = array(
-                        'status'  => 0,
-                        'message' => $file["error"],
-                    );
-                } else {
-                    //TODO check file type and size here
-                    if (
-                        (substr($file['type'], 0, 5) == 'image') ||
-                        (substr($file['type'], 0, 5) != 'image' && $this->property('fileType') == 0)
-                    ) {
-
-                        // Check if file exist
-                        if (file_exists($uploadDir.$fileName)) {
-                            $fileName = time().'-'.$fileName;
-                        }
-
-                        // Upload File
-                        move_uploaded_file($file["tmp_name"], $uploadDir.$fileName);
-                        $filePath = str_replace($_SERVER['DOCUMENT_ROOT'], '', $uploadDir.$fileName);
-
-                        // Create File
-                        $object = new TicketAttachment;
-                        $object->file_name = $fileName;
-                        $object->file_path = $filePath;
-                        $object->ticket_id = $uid;
-                        $object->file_size = $file['size'];
-                        $object->content_type = $file['type'];
-                        $object->user_id = $uid;
-                        $object->title = '';
-                        $object->description = '';
-                        $object->save();
-
-                        $res = array(
-                            'status'   => 1,
-                            'message'  => e(trans('keios.support::lang.message.success')),
-                            'fileName' => $fileName,
-                            'filePath' => $filePath,
-                            'checkImg' => $this->property('fileType'),
-                        );
-                    } else {
-                        $res = array(
-                            'status'  => 0,
-                            'message' => e(trans('keios.support::lang.message.extension')),
-                        );
-                    }
+                if (!$dirExist) {
+                    throw new \Exception('Cannot create directory');
                 }
-            } else {
-                $res = array(
-                    'status'  => 0,
-                    'message' => e(trans('keios.support::lang.message.dir')),
-                );
             }
+
+            $file = $_FILES['file'];
+            $fileName = $file["name"];
+            if ($file["error"] > 0) {
+                throw new \Exception('Problem with file!'); //todo
+            }
+
+            if (file_exists($uploadDir.$fileName)) {
+                $fileName = time().'-'.$fileName;
+            }
+
+            move_uploaded_file($file["tmp_name"], $uploadDir.$fileName);
+            $filePath = str_replace($_SERVER['DOCUMENT_ROOT'], '', $uploadDir.$fileName);
+            $this->createAttachment($fileName, $filePath, $tid, $file);
+
+            $result = [
+                'status'   => 1,
+                'message'  => trans('keios.support::lang.message.success'),
+                'fileName' => $fileName,
+                'filePath' => $filePath,
+                'checkImg' => 0,
+            ];
         } else {
-            $res = array(
-                'status'  => 0,
-                'message' => e(trans('keios.support::lang.message.empty')),
-            );
+            throw new \Exception('Problem with file!'); //todo
         }
-        //dd(json_encode($res));
-        $this->page['output'] = json_encode($res);
+
+        $this->page['output'] = json_encode($result);
 
     }
 
+    /**
+     * Puts file entry in the database
+     *
+     * @param string  $fileName
+     * @param string  $filePath
+     * @param integer $tid
+     * @param array   $file
+     *
+     * @return TicketAttachment
+     * @throws \Exception
+     */
+    private function createAttachment($fileName, $filePath, $tid, $file)
+    {
+        DB::beginTransaction();
+
+        try {
+            $attachment = new TicketAttachment;
+            $attachment->file_name = $fileName;
+            $attachment->file_path = $filePath;
+            $attachment->ticket_id = $tid;
+            $attachment->file_size = $file['size'];
+            $attachment->content_type = $file['type'];
+            $attachment->user_id = $tid;
+            $attachment->save();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw new \Exception($e); //todo
+        }
+
+        DB::commit();
+
+        return $attachment; //todo think if necessary
+    }
 
 }

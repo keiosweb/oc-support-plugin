@@ -21,8 +21,8 @@ class TicketAttachment extends Model
      * @var array
      */
     public $belongsTo = [
-        'user' => ['Backend\Models\User'],
-        'ticket' => ['Keios\Support\Models\Ticket']
+        'user'   => ['Backend\Models\User'],
+        'ticket' => ['Keios\Support\Models\Ticket'],
     ];
 
     /**

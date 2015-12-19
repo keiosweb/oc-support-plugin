@@ -3,7 +3,9 @@
         font-size: 12px;
         font-weight: bold;
     }
-
+    .upload-form {
+        margin: 20px 0;
+    }
 </style>
 <script type="application/javascript" src="/plugins/keios/support/assets/js/tinymce/tinymce.min.js"></script>
 <div id="ticket-details">
@@ -47,12 +49,10 @@
                         {% endfor %}
                         </tbody>
                     </table>
-
-
                 </div>
                 <div class="col-sm-6">
                     <h4>{{ 'Attach File'|_ }}</h4>
-                    <div style="margin: 20px 0;">
+                    <div class="upload-form">
                         {{ form_open({ 'class': 'fileUpload', 'method': 'POST', 'files': 'true' }) }}
                         <input type="hidden" name="ticket_id" value="{{ ticket.id }}"/>
                         <input class="form-control" type="file" name="fileToUpload" style="padding-bottom: 40px;">
@@ -103,51 +103,32 @@
                 selector: '#comment_content',
                 menubar: false
             });
-            $('document').ready(function () {
-                /* file upload script */
-                //var i = 1;
-                $('form.fileUpload').submit(function () {
-                    var file_data = $(this).find('input[type="file"]').prop('files')[0];
-                    var form_data = new FormData();
-                    form_data.append('file', file_data);
-                    form_data.append('ticket_id', '{{ ticket.id }}');
-                    $.ajax({
-                        url: '{{ uploadPage }}',
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        data: form_data,
-                        type: 'post',
-                        success: function (data) {
-                            // display response
 
-                            var result = $.trim(data);
-                            result = JSON.parse(result.replace(/&quot;/g, '"'));
-                            if (result['status']) { // No errors
-                                location.reload();
-                                /*
-                                if (result['checkImg']) { // File is image
-                                    // Add markup code to div#results
-                                    var output = '![' + result['fileName'] + '][' + i + ']' + "<br><br>" + '[' + i + ']: ' + result['filePath'] + ' "' + result['fileName'] + '"' + "<br><br>";
-                                    var html = $('#results').html();
-                                }
-                                else {
-                                    // Add markup code to div#results
-                                    var output = '[' + result['fileName'] + '][' + i + ']' + "<br><br>" + '[' + i + ']: ' + result['filePath'] + "<br><br>";
-                                    var html = $('#results').html();
-                                }
-                                $('#results').html(html + output);
-                                i++;
-                                $('#ajax-messages').html(result['message']);
-                                */
-                            }
-                            else {
-                                $('#ajax-messages').html(result['message']);
-                            }
+            /* file upload script */
+            $('form.fileUpload').submit(function () {
+                var uploadedFile = $(this).find('input[type="file"]').prop('files')[0];
+                var uploadedForm = new FormData();
+                uploadedForm.append('file', uploadedFile);
+                uploadedForm.append('ticket_id', '{{ ticket.id }}');
+                $.ajax({
+                    url: '{{ uploadPage }}',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: uploadedForm,
+                    type: 'post',
+                    success: function (data) {
+                        var response = $.trim(data);
+                        response = JSON.parse(response.replace(/&quot;/g, '"'));
+                        if (response['status']) {
+                            location.reload();
                         }
-                    });
-                    return false;
+                        else {
+                            $('#ajax-messages').html(response['message']);
+                        }
+                    }
                 });
+                return false;
             });
         });
     </script>
