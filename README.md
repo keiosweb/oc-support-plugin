@@ -25,7 +25,7 @@ Plugin requires Rainlab Translate plugin and either [Keios ProUser](https://lab.
 
 ## Configuration
 
-Plugin includes four components - each of them should be put on a page accessible only to registered users.
+Plugin includes four components - each of them should be put on a page accessible only to registered users. Default views use *Twitter Bootstrap* classes. 
 
 #### Ticket Form
 

@@ -3,6 +3,7 @@
 use BackendMenu;
 use Backend\Classes\Controller;
 use Flash;
+use Keios\Support\Models\TicketPriority;
 use Lang;
 
 /**

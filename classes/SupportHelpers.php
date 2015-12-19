@@ -43,6 +43,8 @@ class SupportHelpers
     /**
      * Generates ticket code
      *
+     * @param integer $id
+     *
      * @return Hashids
      */
     public function generateCode($id) //todo depreciated
@@ -55,7 +57,9 @@ class SupportHelpers
     /**
      * Generates ticket Hash ID
      *
-     * @return Hashids
+     * @param integer $id
+     *
+     * @return string
      */
     public function generateHashId($id)
     {

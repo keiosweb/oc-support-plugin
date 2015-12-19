@@ -1,6 +1,5 @@
 <?php namespace Keios\Support\Components;
 
-use Log;
 use BackendAuth;
 use Keios\Support\Models\TicketAttachment;
 use Cms\Classes\ComponentBase;

@@ -1,6 +1,5 @@
 <?php namespace Keios\Support\Updates;
 
-use Keios\Support\Models\TicketPriority;
 use October\Rain\Database\Updates\Seeder;
 use DB;
 

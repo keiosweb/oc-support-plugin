@@ -1,46 +1,22 @@
-<style>
-    .comment_label {
-        font-size: 12px;
-        font-weight: bold;
-    }
-
-</style>
-{% if authorize_access %}
-    <div id="ticket-status">
-        <form>
-            <label for="email">{{ 'Your e-mail' }}</label>
-            <input class="form-control" value="{{ ticket_email }}" id="email" name="email" type="text"
-                   placeholder="{{ 'Enter your e-mail'|_ }}"/>
-            <br/>
-            <label for="code">{{ 'Your code' }}</label>
-            <input class="form-control" value="{{ ticket_code }}" id="code" name="code" type="text"
-                   placeholder="{{ 'Enter account code'|_ }}"/>
-            <br/>
-            <button type="submit" class="btn btn-primary">{{ 'See your ticket list'|_ }}</button>
-        </form>
-        <a href="#">{{ 'Do not remember your code? Click here!'|_ }}</a>
-    </div>
-{% else %}
-    <div id="ticket-list">
-        <table class="table">
-            <thead>
+<div id="ticket-list">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>{{ 'Ticket Number'|_ }}</th>
+            <th>{{ 'Ticket Topic'|_ }}</th>
+            <th>{{ 'Ticket Status' }}</th>
+            <th>{{ 'Last update' }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ticket in tickets %}
             <tr>
-                <th>{{ 'Ticket Number'|_ }}</th>
-                <th>{{ 'Ticket Topic'|_ }}</th>
-                <th>{{ 'Ticket Status' }}</th>
-                <th>{{ 'Last update' }}</th>
+                <td><a href="{{ ticket_page }}/{{ ticket.hash_id }}">{{ ticket.hash_id }}</a></td>
+                <td>{{ ticket.topic }}</td>
+                <td>{{ ticket.status.name|_ }}</td>
+                <td>{{ ticket.updated_at }}</td>
             </tr>
-            </thead>
-            <tbody>
-            {% for ticket in tickets %}
-                <tr>
-                    <td><a href="{{ ticket_page }}/{{ ticket.hash_id }}">{{ ticket.hash_id }}</a></td>
-                    <td>{{ ticket.topic }}</td>
-                    <td>{{ ticket.status.name|_ }}</td>
-                    <td>{{ ticket.updated_at }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-{% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

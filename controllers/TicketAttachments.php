@@ -1,10 +1,8 @@
 <?php namespace Keios\Support\Controllers;
 
 use Flash;
-use Redirect;
 use BackendMenu;
 use BackendAuth;
-use ApplicationException;
 use Keios\Support\Models\TicketAttachment;
 use Backend\Classes\Controller;
 
