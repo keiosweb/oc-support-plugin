@@ -18,6 +18,8 @@ class SupportMailer
 {
 
     /**
+     * Emails the user if this is his first ticket.
+     *
      * @param string $email
      * @param array  $vars
      */
@@ -27,43 +29,36 @@ class SupportMailer
     }
 
     /**
+     * Emails the user after he creates the ticket
+     *
      * @param string $email
      * @param array  $vars
      */
     public function sendAfterTicketCreated($email, $vars)
     {
         Mail::sendTo($email, 'keios.support::mail.ticket.create', $vars);
-
     }
 
     /**
+     * Emails the user if his ticket is updated
+     *
      * @param string $email
      * @param array  $vars
      */
     public function sendAfterTicketUpdated($email, $vars)
     {
         Mail::sendTo($email, 'keios.support::mail.ticket.update', $vars);
-
     }
 
     /**
+     * Emails the user if his ticket is closed or resolved
+     *
      * @param string $email
      * @param array  $vars
      */
     public function sendAfterTicketClosed($email, $vars)
     {
         Mail::sendTo($email, 'keios.support::mail.ticket.close', $vars);
-
-    }
-
-    /**
-     * @param string $email
-     * @param array  $vars
-     */
-    public function sendAfterCodeRecoveryRequest($email, $vars)
-    {
-        Mail::sendTo($email, 'keios.support::mail.account.code_recovery', $vars);
-
     }
 
 }

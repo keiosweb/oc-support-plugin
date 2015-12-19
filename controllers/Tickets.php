@@ -11,17 +11,32 @@ use Lang;
  */
 class Tickets extends Controller
 {
+    /**
+     * @var array
+     */
     public $implement = [
         'Backend.Behaviors.FormController',
         'Backend.Behaviors.ListController',
         'Backend.Behaviors.RelationController',
     ];
 
+    /**
+     * @var string
+     */
     public $formConfig = 'config_form.yaml';
+    /**
+     * @var string
+     */
     public $listConfig = 'config_list.yaml';
+    /**
+     * @var string
+     */
     public $relationConfig = 'config_relation.yaml';
 
 
+    /**
+     * Tickets constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -30,7 +45,7 @@ class Tickets extends Controller
     }
 
     /**
-     * Deleted checked tickets.
+     * Deletes checked tickets.
      */
     public function index_onDelete()
     {

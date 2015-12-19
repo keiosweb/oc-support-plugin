@@ -34,9 +34,9 @@
             <tbody>
             {% for ticket in tickets %}
                 <tr>
-                    <td><a href="{{ ticket_page }}/{{ ticket.hash_id }}?email={{ user_email }}&code={{ user_code }}">{{ ticket.hash_id }}</a></td>
+                    <td><a href="{{ ticket_page }}/{{ ticket.hash_id }}">{{ ticket.hash_id }}</a></td>
                     <td>{{ ticket.topic }}</td>
-                    <td>{{ ticket.status|_ }}</td>
+                    <td>{{ ticket.status.name|_ }}</td>
                     <td>{{ ticket.updated_at }}</td>
                 </tr>
             {% endfor %}

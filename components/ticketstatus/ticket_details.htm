@@ -1,6 +1,6 @@
 <h3 class="text-center">{{ 'Ticket'|_ }} {{ ticket.hash_id }}</h3>
 
-<h4>{{ 'Current Status'|_ }}: <b>{{ ticket.status|_ }}</b></h4>
+<h4>{{ 'Current Status'|_ }}: <b>{{ ticket.status.name|_ }}</b></h4>
 <h4>{{ 'Last Updated'|_ }}: <b>{{ ticket.updated_at }}</b></h4>
 
 <hr>
@@ -31,17 +31,6 @@
             <hr>
         {% endfor %}
 
-        <h4>{{ 'Add Comment'|_ }}</h4>
-        <form method="post" data-request="onAddComment"
-              data-request-update="'{{ __SELF__ }}::ticket_details': '#ticket-details'">
-            <input type="hidden" name="ticket_number" value="{{ ticket.hash_id }}"/>
-            <label for="comment_author">{{ 'Your name'|_ }}</label>
-            <input class="form-control" type="text" name="comment_author" id="comment_author"/>
-            <br/>
-            <label for="comment_content">{{ 'Your comment'|_ }}</label>
-            <textarea class="form-control" id="comment_content" name="comment_content"></textarea>
-            <br/>
-            <button type="submit" class="btn btn-primary">{{ 'Submit'|_ }}</button>
-        </form>
+        <h4>{{ 'Comment added succesfuly!'|_ }}</h4>
     </div>
 </div>

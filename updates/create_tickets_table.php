@@ -28,7 +28,6 @@ class CreateTicketsTable extends Migration
                 $table->string('topic');
                 $table->longText('content');
                 $table->integer('status_id')->default(1);
-                $table->string('code');
                 $table->integer('priority_id')->default(1);
                 $table->timestamps();
             }

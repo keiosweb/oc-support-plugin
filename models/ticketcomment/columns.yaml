@@ -7,7 +7,8 @@ columns:
         label: Author
     content:
         label: Comment
-        type: text
+        type: partial
+        path: ~/plugins/keios/support/controllers/tickets/_comment_content.htm
     is_support:
         label: Support
         type: switch

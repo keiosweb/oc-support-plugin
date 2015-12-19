@@ -1,3 +1,4 @@
+<script type="application/javascript" src="/plugins/keios/support/assets/js/tinymce/tinymce.min.js"></script>
 <div class="col-sm-6 col-sm-offset-3">
     <h3>{{ 'Create a new ticket'|_ }}</h3>
     <div id="new-ticket-container">
@@ -20,6 +21,7 @@
             <br/>
             <input title="Website" class="form-control" type="text" placeholder="{{ 'Topic'|_ }}" id="topic"
                    name="topic"/>
+            <br />
             <label for="content">{{ 'Description'|_ }}</label>
             <textarea class="form-control" name="content" id="content"></textarea>
             <br/>
@@ -27,3 +29,10 @@
         </form>
     </div>
 </div>
+
+<script>
+    tinymce.init({
+        selector: '#content',
+        menubar: false
+    });
+</script>

@@ -39,57 +39,25 @@ class TicketStatus extends ComponentBase
     }
 
     /**
-     *
+     * Loads ticket selected with page slug
      */
     public function onRun()
     {
-        $this->page['authorize_access'] = true;
         $hash = $this->property('slug');
-        $getData = get();
-        if (array_key_exists('email', $getData)) {
-            $this->page['ticket_email'] = $getData['email'];
-        }
-        if (array_key_exists('code', $getData)) {
-            $this->page['ticket_code'] = $getData['code'];
-        }
-
-        if (count($getData) == 2) {
-            $this->authorizeClient($hash, $getData);
-        }
-
+        $creator = \Auth::getUser();
         if ($hash) {
-            $ticket = Ticket::where('hash_id', $hash)->first();
-
-            $isAuthorized = \Session::get($ticket->hash_id);
-            if ($isAuthorized == 'authorized') {
-                $this->page['authorize_access'] = false;
-                $this->page['user_email'] = $ticket->creator->email;
-                $this->page['user_code'] = $ticket->creator->code;
-                $this->page['ticket'] = $ticket;
-            }
+            $ticket = Ticket::where('hash_id', $hash)->where('creator_id', $creator->id)->first();
+            $this->page['user_email'] = $ticket->creator->email;
+            $this->page['user_code'] = $ticket->creator->code;
+            $this->page['ticket'] = $ticket;
         } else {
             $this->page['ask_number'] = true;
         }
-
-        return null;
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     * @throws \ValidationException
-     */
-    public function onCredentialsCheck()
-    {
-        $data = post();
-        $hash = $this->property('slug');
-        if (!$hash && array_key_exists('ticket_number', $data)) {
-            $hash = $data['ticket_number'];
-        }
-        $this->authorizeClient($hash, $data);
-    }
-
-    /**
+     * Adds comment to the ticket
+     *
      * @throws \ValidationException
      */
     public function onAddComment()
@@ -102,13 +70,15 @@ class TicketStatus extends ComponentBase
         }
 
         $ticket = Ticket::where('hash_id', $hash)->first();
-        $author = $ticket->creator;
+        $author = $ticket->creator->first_name.' '.$ticket->creator->last_name;
+        $authorEmail = ' ('.$ticket->creator->email.')';
+        $commentContent = $this->purifyComment($data['comment_content']);
 
         $comment = new TicketComment(
             [
-                'author'     => $data['comment_author'].' ('.$author->email.')',
+                'author'     => $author.$authorEmail,
                 'is_support' => 0,
-                'content'    => $data['comment_content'],
+                'content'    => $commentContent,
             ]
         );
 
@@ -120,49 +90,8 @@ class TicketStatus extends ComponentBase
     }
 
     /**
-     * @param string $hash
-     * @param array  $data
+     * Validates comment
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     * @throws \ValidationException
-     */
-    private function authorizeClient($hash, $data)
-    {
-        $ticket = Ticket::where('hash_id', $hash)->first();
-
-        $this->validateCredentials($ticket, $data);
-        $sessionKey = $ticket->hash_id;
-        \Session::put($sessionKey, 'authorized');
-
-        return \Redirect::back();
-    }
-
-    /**
-     * @param Ticket $ticket
-     * @param array  $data
-     *
-     * @throws \ValidationException
-     * @throws \Exception
-     */
-    private function validateCredentials($ticket, $data)
-    {
-        $rules = [
-            'email' => 'required',
-            'code'  => 'required',
-        ];
-
-        $validator = Validator::make($data, $rules);
-        if ($validator->fails()) {
-            throw new \ValidationException($validator);
-        }
-
-        if ($ticket->code != $data['code'] || $ticket->creator->email != $data['email']) {
-            throw new \Exception(trans('keios.support::lang.errors.invalid_credentials'));
-        }
-    }
-
-    /**
      * @param array $data
      *
      * @throws \ValidationException
@@ -170,14 +99,27 @@ class TicketStatus extends ComponentBase
     private function validateComment($data)
     {
         $rules = [
-            'comment_author'  => 'required',
             'comment_content' => 'required',
         ];
         $validator = Validator::make($data, $rules);
         if ($validator->fails()) {
             throw new \ValidationException($validator);
         }
+    }
 
+    /**
+     * Purifies comment from bad html
+     *
+     * @param string $comment
+     *
+     * @return string
+     */
+    private function purifyComment($comment)
+    {
+        $purifierConfig = \HTMLPurifier_Config::createDefault();
+        $purifier = new \HTMLPurifier($purifierConfig);
+
+        return $purifier->purify($comment);
     }
 
 

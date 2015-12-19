@@ -33,6 +33,8 @@ class TicketComment extends Model
     ];
 
     /**
+     * Provides strings to be used as user signature
+     *
      * @return array
      */
     public function getAuthorOptions()

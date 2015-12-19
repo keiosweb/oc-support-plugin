@@ -3,6 +3,24 @@
 # ===================================
 
 fields:
+    hash_id@create:
+        label: Hash ID
+        type: text
+        span: left
+        disabled: true
+    hash_id@update:
+        label: Hash Id
+        type: partial
+        span: left
+    creator@create:
+        label: Ticket Creator
+        type: relation
+        nameFrom: email
+        span: right
+    creator@update:
+        label: Ticket Creator
+        type: partial
+        span: right
     priority:
         label: Priority
         type: relation
@@ -12,28 +30,25 @@ fields:
         label: Assigned user
         type: dropdown
         span: right
-    hash_id:
-        label: Hash ID
-        type: text
-        span: left
-    creator:
-        label: Ticket Creator
+    status:
+        label: Status
         type: relation
-        selectFrom: email
-        span: right
-    topic:
-        label: Topic
-        type: text
+        selectFrom: name
         span: left
     category:
         label: Category
         type: relation
         selectFrom: name
         span: right
-    content:
+    topic:
+        label: Topic
+        type: text
+    content@create:
         label: Content
         type: richeditor
-    status:
-        label: Status
-        type: relation
-        selectFrom: name
+    content@update:
+        label: Content
+        type: partial
+    comments:
+        label: Comments
+        type: partial

@@ -1,13 +1,11 @@
 <?php namespace Keios\Support\Components;
 
 use Cms\Classes\ComponentBase;
-use Cms\Classes\Page;
 use Keios\Support\Classes\SupportHelpers;
 use Keios\Support\Classes\SupportMailer;
 use Keios\Support\Models\Settings;
 use Keios\Support\Models\Ticket;
 use Keios\Support\Models\TicketCategory;
-use Keios\Support\Models\TicketCreator;
 use Keios\Support\Models\TicketStatus;
 
 
@@ -61,8 +59,9 @@ class TicketForm extends ComponentBase
         ];
     }
 
+
     /**
-     *
+     * Loads categories for ticket form
      */
     public function onRun()
     {
@@ -70,17 +69,24 @@ class TicketForm extends ComponentBase
         $this->page['categories'] = $categories;
     }
 
+
     /**
+     * Creates new Ticket and redirects to its page
      *
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \ValidationException
      */
     public function onTicketCreate()
     {
+
+
         $data = post();
         $this->helpers->validateTicket($data);
-        $creator = $this->checkCreator($data['name'], $data['email']);
-        $redirectPage = $this->property('ticketPage');
+        $creator = \Auth::getUser();
+        $ticketPage = Settings::get('address');
         $newStatus = TicketStatus::where('name', 'New')->first()->id;
 
+        $content = $this->purifyTicket($data['content']);
 
         $ticket = new Ticket();
         $ticket->hash_id = 'temp';
@@ -89,9 +95,8 @@ class TicketForm extends ComponentBase
         $ticket->email = $creator->email;
         $ticket->website = $data['website'];
         $ticket->topic = $data['topic'];
-        $ticket->content = $data['content'];
+        $ticket->content = $content;
         $ticket->status = $newStatus;
-        $ticket->code = $creator->code;
         $ticket->save();
 
         $hashId = $this->helpers->generateHashId($ticket->id);
@@ -111,52 +116,22 @@ class TicketForm extends ComponentBase
 
         $mailer->sendAfterTicketCreated($creator->email, $vars);
 
-        return \Redirect::to($redirectPage.'/'.$hashId);
-    }
-
-
-    /**
-     * @param $name
-     * @param $email
-     *
-     * @return TicketCreator
-     */
-    private function checkCreator($name, $email)
-    {
-        $creator = TicketCreator::where('email', $email)->first();
-
-        if (!$creator) {
-            $creator = $this->createCreator($name, $email);
-        }
-
-        return $creator;
+        return \Redirect::to($ticketPage.$hashId);
     }
 
     /**
-     * @param $name
-     * @param $email
+     * Purifies ticket content from bad html
      *
-     * @return TicketCreator
+     * @param string $content
+     *
+     * @return string
      */
-    private function createCreator($name, $email)
+    private function purifyTicket($content)
     {
-        $creator = new TicketCreator();
-        $creator->name = $name;
-        $creator->email = $email;
-        $creator->code = 'temp';
-        $creator->save();
-        $creator->code = $this->helpers->generateCode($creator->id);
-        $creator->save();
+        $purifierConfig = \HTMLPurifier_Config::createDefault();
+        $purifier = new \HTMLPurifier($purifierConfig);
 
-        $mailer = new SupportMailer();
-        $vars = [
-            'account_name' => $creator->name,
-            'account_code' => $creator->code,
-        ];
-
-        $mailer->sendAfterFirstTicket($creator->email, $vars);
-
-        return $creator;
+        return $purifier->purify($content);
     }
 
 }

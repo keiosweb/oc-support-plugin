@@ -11,14 +11,26 @@ use Lang;
  */
 class TicketComments extends Controller
 {
+    /**
+     * @var array
+     */
     public $implement = [
         'Backend.Behaviors.FormController',
-        'Backend.Behaviors.ListController'
+        'Backend.Behaviors.ListController',
     ];
 
+    /**
+     * @var string
+     */
     public $formConfig = 'config_form.yaml';
+    /**
+     * @var string
+     */
     public $listConfig = 'config_list.yaml';
 
+    /**
+     * TicketComments constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -27,20 +39,21 @@ class TicketComments extends Controller
     }
 
     /**
-     * Deleted checked ticketcomments.
+     * Deletes checked ticket comments.
      */
     public function index_onDelete()
     {
         if (($checkedIds = post('checked')) && is_array($checkedIds) && count($checkedIds)) {
 
             foreach ($checkedIds as $ticketcommentId) {
-                if (!$ticketcomment = TicketComment::find($ticketcommentId)) continue;
+                if (!$ticketcomment = TicketComment::find($ticketcommentId)) {
+                    continue;
+                }
                 $ticketcomment->delete();
             }
 
             Flash::success(Lang::get('keios.support::lang.ticketcomments.delete_selected_success'));
-        }
-        else {
+        } else {
             Flash::error(Lang::get('keios.support::lang.ticketcomments.delete_selected_empty'));
         }
 

@@ -32,7 +32,7 @@ class Ticket extends Model
         'category' => 'Keios\Support\Models\TicketCategory',
         'priority' => 'Keios\Support\Models\TicketPriority',
         'status'   => 'Keios\Support\Models\TicketStatus',
-        'creator'  => 'Keios\Support\Models\TicketCreator',
+        'creator'  => 'Keios\ProUser\Models\User',
         'user'     => 'Backend\Models\User',
     ];
 
@@ -40,12 +40,17 @@ class Ticket extends Model
      * @var array Relations
      */
     public $attachOne = [];
+
     /**
      * @var array Relations
      */
     public $attachMany = [
         'files' => ['System\Models\File'],
     ];
+
+    /**
+     * @var array
+     */
     public $belongsToMany = [
         'comments' => [
             'Keios\Support\Models\TicketComment',
@@ -56,7 +61,9 @@ class Ticket extends Model
     ];
 
     /**
-     * @return mixed
+     * Provides user list for assignation purposes.
+     *
+     * @return array
      */
     public function getUserOptions()
     {
@@ -65,17 +72,35 @@ class Ticket extends Model
         return $user;
     }
 
+    /**
+     * After Update method
+     *
+     * Changes "New" to "Assigned" if user is assigned.
+     *
+     * Triggers mail sender on update.
+     */
     public function afterUpdate()
     {
+        $user = $this->user_id;
+        $statusId = $this->status->id;
+        $newStatus = TicketStatus::where('name', 'New')->first()->id;
+        $assignedStatus = TicketStatus::where('name', 'Assigned')->first()->id;
+
+        if ($user != null && $statusId == $newStatus) {
+            $this->status_id = $assignedStatus;
+        }
+
+
         $mailer = new SupportMailer();
         $email = $this->creator->email;
         $address = Settings::get('address');
         $vars = [
             'ticket_number' => $this->hash_id,
             'ticket_link'   => $address.'/'.$this->hash_id,
+            'ticket_status' => $this->status->name,
         ];
 
-        if ($this->status == 'Closed') {
+        if ($this->status == 'Closed' || $this->status == 'Resolved') {
             $mailer->sendAfterTicketClosed($email, $vars);
         } else {
             if ($this->is_support == 1) {

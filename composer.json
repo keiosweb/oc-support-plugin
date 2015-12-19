@@ -1,0 +1,13 @@
+{
+    "name": "keios/support",
+    "description": "Simple Ticket System for OctoberCMS",
+    "authors": [
+        {
+            "name": "Keios Solutions",
+            "email": "jakub@keios.eu"
+        }
+    ],
+    "require": {
+        "ezyang/htmlpurifier": "^4.7"
+    }
+}

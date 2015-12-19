@@ -19,9 +19,6 @@ class Settings extends Model
     protected $fillable = ['address'];
 
     public $settingsCode = 'keios::support.settings';
-    /**
-     * @var string The database table used by the model.
-     */
 
     public $settingsFields = 'fields.yaml';
 

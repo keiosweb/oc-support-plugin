@@ -19,6 +19,8 @@ use October\Rain\Support\Facades\Config;
 class SupportHelpers
 {
     /**
+     * Validates ticket fields
+     *
      * @param array $data
      *
      * @throws \ValidationException
@@ -41,9 +43,11 @@ class SupportHelpers
     }
 
     /**
+     * Generates ticket code
+     *
      * @return Hashids
      */
-    public function generateCode($id)
+    public function generateCode($id) //todo depreciated
     {
         $code = new Hashids(Config::get('app.key'), 8, 'ABCDEFGHIJKLMNOPRSTUWXYZabcdefghijklmnoprstuwxyz123456789');
 
@@ -51,6 +55,8 @@ class SupportHelpers
     }
 
     /**
+     * Generates ticket Hash ID
+     *
      * @return Hashids
      */
     public function generateHashId($id)
@@ -61,6 +67,8 @@ class SupportHelpers
     }
 
     /**
+     * Todo - this method should notify people about new ticket or sth like that
+     *
      * @param $hashId
      *
      * @return null

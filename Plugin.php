@@ -25,22 +25,28 @@ class Plugin extends PluginBase
     }
 
     /**
+     * Registers settings
+     *
      * @return array
      */
     public function registerSettings()
     {
         return [
             'settings' => [
-                'label' => 'Support Settings',
+                'label'       => 'Support Settings',
                 'description' => 'Setup Ticket System',
-                'icon' => 'icon-life-ring',
-                'class' => 'Keios\Support\Models\Settings',
-                'order' => 600
-            ]
+                'icon'        => 'icon-life-ring',
+                'class'       => 'Keios\Support\Models\Settings',
+                'keywords'    => 'support, tickets',
+                'permissions' => ['keios.support.settings'],
+                'order'       => 600,
+            ],
         ];
     }
 
     /**
+     * Registers components
+     *
      * @return array
      */
     public function registerComponents()
@@ -54,6 +60,8 @@ class Plugin extends PluginBase
     }
 
     /**
+     * Registers mail templates
+     *
      * @return array
      */
     public function registerMailTemplates()
@@ -71,13 +79,12 @@ class Plugin extends PluginBase
             'keios.support::mail.ticket.close'          => trans(
                 'keios.support::lang.mailer.close'
             ),
-            'keios.support::mail.account.code_recovery' => trans(
-                'keios.support::lang.mailer.code_recover'
-            ),
         ];
     }
 
     /**
+     * Registers backend navigation
+     *
      * @return array
      */
     public function registerNavigation()
@@ -92,29 +99,59 @@ class Plugin extends PluginBase
                     'tickets'          => [
                         'label' => 'keios.support::lang.app.tickets',
                         'url'   => Backend::url('keios/support/tickets'),
+                        'permissions' => ['keios.support.tickets'],
                         'icon'  => 'icon-ticket',
                     ],
                     'ticketcategories' => [
                         'label' => 'keios.support::lang.app.ticketcategories',
                         'url'   => Backend::url('keios/support/ticketcategories'),
+                        'permissions' => ['keios.support.categories'],
                         'icon'  => 'icon-folder-o',
-                    ],
-                    'ticketcreators'   => [
-                        'label' => 'keios.support::lang.app.ticketcreators',
-                        'url'   => Backend::url('keios/support/ticketcreators'),
-                        'icon'  => 'icon-users',
                     ],
                     'ticketstatuses'   => [
                         'label' => 'keios.support::lang.app.ticketstatuses',
                         'url'   => Backend::url('keios/support/ticketstatuses'),
-                        'icon'  => 'icon-star',
+                        'permissions' => ['keios.support.statuses'],
+                        'icon'  => 'icon-flag-o',
                     ],
-                    'ticketpriorities'   => [
+                    'ticketpriorities' => [
                         'label' => 'keios.support::lang.app.ticketpriorities',
                         'url'   => Backend::url('keios/support/ticketpriorities'),
+                        'permissions' => ['keios.support.priorities'],
                         'icon'  => 'icon-star',
                     ],
                 ],
+            ],
+        ];
+    }
+
+    /**
+     * Registers permissions
+     *
+     * @return array
+     */
+    public function registerPermissions()
+    {
+        return [
+            'keios.support.tickets'    => [
+                'tab'   => 'keios.support::lang.plugin.name',
+                'label' => 'keios.support::lang.permissions.tickets',
+            ],
+            'keios.support.categories' => [
+                'tab'   => 'keios.support::lang.plugin.name',
+                'label' => 'keios.support::lang.permissions.categories',
+            ],
+            'keios.support.statuses'   => [
+                'tab'   => 'keios.support::lang.plugin.name',
+                'label' => 'keios.support::lang.permissions.statuses',
+            ],
+            'keios.support.priorities' => [
+                'tab'   => 'keios.support::lang.plugin.name',
+                'label' => 'keios.support::lang.permissions.priorities',
+            ],
+            'keios.support.settings'   => [
+                'tab'   => 'keios.support::lang.plugin.name',
+                'label' => 'keios.support::lang.permissions.settings',
             ],
         ];
     }
