@@ -28,8 +28,6 @@ class SupportHelpers
     public function validateTicket($data)
     {
         $rules = [
-            'name'    => 'required',
-            'email'   => 'required',
             'topic'   => 'required',
             'content' => 'required',
         ];

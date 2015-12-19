@@ -1,7 +1,7 @@
 # ===================================
-#  List Column Definitions
+#  Field Definitions
 # ===================================
 
-columns:
-    name:
-        label: Name
+fields:
+    id:
+        label: ID

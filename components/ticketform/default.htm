@@ -3,23 +3,20 @@
     <h3>{{ 'Create a new ticket'|_ }}</h3>
     <div id="new-ticket-container">
         <form data-request="onTicketCreate">
-            <input title="Name" class="form-control" type="text" placeholder="{{ 'Your name'|_ }}" id="creator_name"
-                   name="name"/>
-            <br/>
-            <input title="E-mail" class="form-control" type="text" placeholder="{{ 'Your e-mail'|_ }}"
-                   id="creator_email" name="email"/>
-            <br/>
-            <input title="Website" class="form-control" type="text" placeholder="{{ 'Your website'|_ }}" id="website"
+            <label for="website">{{ 'Website'|_ }}</label>
+            <input class="form-control" type="text" placeholder="{{ 'Your website'|_ }}" id="website"
                    name="website"/>
             <br/>
-            <select title="Category" class="form-control" id="category" name="category">
+            <label for="category">{{ 'Category'|_ }}</label>
+            <select class="form-control" id="category" name="category">
                 <option value="">{{ 'Please select category'|_ }}</option>
                 {% for title,id in categories %}
                     <option value="{{ id }}">{{ title }}</option>
                 {% endfor %}
             </select>
             <br/>
-            <input title="Website" class="form-control" type="text" placeholder="{{ 'Topic'|_ }}" id="topic"
+            <label for="topic">{{ 'Ticket topic'|_ }}</label>
+            <input class="form-control" type="text" placeholder="{{ 'Please enter topic'|_ }}" id="topic"
                    name="topic"/>
             <br />
             <label for="content">{{ 'Description'|_ }}</label>

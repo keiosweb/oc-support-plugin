@@ -1,6 +1,7 @@
 <?php namespace Keios\Support\Components;
 
 use Cms\Classes\ComponentBase;
+use Keios\Support\Models\Settings;
 use Keios\Support\Models\Ticket;
 
 /**
@@ -26,13 +27,7 @@ class TicketList extends ComponentBase
      */
     public function defineProperties()
     {
-        return [
-            'ticketPage' => [
-                'title'       => 'keios.support::lang.app.ticket_page',
-                'description' => 'keios.support::lang.app.ticket_page_desc',
-                'default'     => '/ticket',
-            ],
-        ];
+        return [];
     }
 
 
@@ -42,9 +37,10 @@ class TicketList extends ComponentBase
     public function onRun()
     {
         $creator = \Auth::getUser();
+        $url = Settings::get('address');
         $tickets = Ticket::where('creator_id', $creator->id)->get();
 
-        $this->page['ticket_page'] = $this->property('ticketPage');
+        $this->page['ticket_page'] = $url;
         $this->page['tickets'] = $tickets;
     }
 

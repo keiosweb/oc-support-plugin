@@ -6,7 +6,6 @@
 
 </style>
 <script type="application/javascript" src="/plugins/keios/support/assets/js/tinymce/tinymce.min.js"></script>
-
 <div id="ticket-details">
     <h3 class="text-center">{{ 'Ticket'|_ }} {{ ticket.hash_id }}</h3>
     <p class="comment_label"><a href="/ticketlist">{{ 'Go to ticket list'|_ }}</a></p>
@@ -24,26 +23,47 @@
         <div class="panel-body">
             {{ ticket.content|raw }}
         </div>
-        <!-- todo
-            <div class="panel-footer">
-                <div class="row">
-                    <div class="col-sm-6">
-                        {% for file in ticket.files %}
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-6">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <td>{{ 'Attachment'|_ }}</td>
+                            <td>{{ 'Upload date'|_ }}</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for file in ticket_files %}
+                            <tr>
+                                <td><a href="{{ file.file_path }}">{{ file.file_name }}</a></td>
+                                <td>{{ file.created_at }}</td>
+                            </tr>
                         {% else %}
-                            {{ 'No file was attached to this ticket'|_ }}
+                            <tr>
+                                <td colspan="2">{{ 'No file was attached to this ticket'|_ }}</td>
+                            </tr>
                         {% endfor %}
-                    </div>
-                    <div class="col-sm-6">
-                        {{ 'Attach file'|_ }}
-                        <form data-request="onFileUpload" enctype="multipart/form-data">
-                            <input class="form-control" type="file" name="file" id="file" style="padding-bottom: 40px;"/>
-                            <br />
-                            <button type="submit" class="btn btn-primary">{{ 'Send'|_ }}</button>
-                        </form>
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <div class="col-sm-6">
+                    <h4>{{ 'Attach File'|_ }}</h4>
+                    <div style="margin: 20px 0;">
+                        {{ form_open({ 'class': 'fileUpload', 'method': 'POST', 'files': 'true' }) }}
+                        <input type="hidden" name="ticket_id" value="{{ ticket.id }}"/>
+                        <input class="form-control" type="file" name="fileToUpload" style="padding-bottom: 40px;">
+                        <br>
+                        <button class="btn btn-primary" type="submit">{{ 'Upload'|_ }}</button>
+                        {{ form_close() }}
                     </div>
                 </div>
             </div>
-            -->
+        </div>
+
     </div>
     <hr>
     <div class="panel panel-primary">
@@ -74,10 +94,61 @@
             </form>
         </div>
     </div>
+
+
     <script>
-        tinymce.init({
-            selector: '#comment_content',
-            menubar: false
+        $('document').ready(function () {
+            /* tinymce trigger */
+            tinymce.init({
+                selector: '#comment_content',
+                menubar: false
+            });
+            $('document').ready(function () {
+                /* file upload script */
+                var i = 1;
+                $('form.fileUpload').submit(function () {
+                    var file_data = $(this).find('input[type="file"]').prop('files')[0];
+                    var form_data = new FormData();
+                    form_data.append('file', file_data);
+                    form_data.append('ticket_id', '{{ ticket.id }}');
+                    $.ajax({
+                        url: '{{ uploadPage }}',
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: form_data,
+                        type: 'post',
+                        success: function (data) {
+                            // display response
+
+                            var result = $.trim(data);
+                            result = JSON.parse(result.replace(/&quot;/g, '"'));
+                            if (result['status']) { // No errors
+                                location.reload();
+                                /*
+                                if (result['checkImg']) { // File is image
+                                    // Add markup code to div#results
+                                    var output = '![' + result['fileName'] + '][' + i + ']' + "<br><br>" + '[' + i + ']: ' + result['filePath'] + ' "' + result['fileName'] + '"' + "<br><br>";
+                                    var html = $('#results').html();
+                                }
+                                else {
+                                    // Add markup code to div#results
+                                    var output = '[' + result['fileName'] + '][' + i + ']' + "<br><br>" + '[' + i + ']: ' + result['filePath'] + "<br><br>";
+                                    var html = $('#results').html();
+                                }
+                                $('#results').html(html + output);
+                                i++;
+                                $('#ajax-messages').html(result['message']);
+                                */
+                            }
+                            else {
+                                $('#ajax-messages').html(result['message']);
+                            }
+                        }
+                    });
+                    return false;
+                });
+            });
         });
     </script>
 </div>

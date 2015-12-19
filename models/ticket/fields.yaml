@@ -43,12 +43,19 @@ fields:
     topic:
         label: Topic
         type: text
+        span: left
+    files:
+        label: Files
+        type: partial
+        span: right
     content@create:
         label: Content
         type: richeditor
+        span: left
     content@update:
         label: Content
         type: partial
+        span: left
     comments:
         label: Comments
         type: partial

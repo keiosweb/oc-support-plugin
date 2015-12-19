@@ -39,7 +39,7 @@ class Upload extends ComponentBase
                 'title'       => 'keios.support::lang.settings.file_type',
                 'description' => 'keios.support::lang.settings.file_type_description',
                 'type'        => 'dropdown',
-                'default'     => '1',
+                'default'     => '0',
                 'options'     => ['0' => 'Files', '1' => 'Images'],
             ],
         ];
@@ -56,12 +56,14 @@ class Upload extends ComponentBase
             $user = BackendAuth::getUser();
             $currDate = date("Y-m-d");
             if (isset($user) && !empty($user)) {
-                $uid = $user->email;
+                $uid = post('ticket_id');
             } else {
                 $uid = 0;
             }
+            $basePath = base_path();
 
-            $uploadPath = $this->property('uploadPath');
+            $uploadPath = $basePath.'/storage/app/uploads/';
+
             if (!empty($uploadPath)) {
                 $uploadDir = $uploadPath.$uid.'/'.$currDate.'/';
                 $this->page['uploadPath'] = $uploadPath.$uid.'/'.$currDate.'/';
@@ -88,11 +90,11 @@ class Upload extends ComponentBase
                     );
                 } else {
                     //TODO check file type and size here
-
                     if (
-                        (substr($file['type'], 0, 5) == 'image' && $this->property('fileType') == 1) ||
+                        (substr($file['type'], 0, 5) == 'image') ||
                         (substr($file['type'], 0, 5) != 'image' && $this->property('fileType') == 0)
                     ) {
+
                         // Check if file exist
                         if (file_exists($uploadDir.$fileName)) {
                             $fileName = time().'-'.$fileName;
@@ -106,6 +108,7 @@ class Upload extends ComponentBase
                         $object = new TicketAttachment;
                         $object->file_name = $fileName;
                         $object->file_path = $filePath;
+                        $object->ticket_id = $uid;
                         $object->file_size = $file['size'];
                         $object->content_type = $file['type'];
                         $object->user_id = $uid;
@@ -139,8 +142,9 @@ class Upload extends ComponentBase
                 'message' => e(trans('keios.support::lang.message.empty')),
             );
         }
-
+        //dd(json_encode($res));
         $this->page['output'] = json_encode($res);
+
     }
 
 

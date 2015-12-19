@@ -1,6 +1,7 @@
 <?php namespace Keios\Support\Models;
 
 use Backend\Models\User;
+use Keios\Support\Classes\SupportHelpers;
 use Keios\Support\Classes\SupportMailer;
 use Model;
 
@@ -25,6 +26,11 @@ class Ticket extends Model
      */
     protected $fillable = [];
 
+
+    public $hasMany = [
+        'files' => ['Keios\Support\Models\TicketAttachment'],
+    ];
+
     /**
      * @var array Relations
      */
@@ -45,7 +51,7 @@ class Ticket extends Model
      * @var array Relations
      */
     public $attachMany = [
-        'files' => ['System\Models\File'],
+
     ];
 
     /**
@@ -72,14 +78,53 @@ class Ticket extends Model
         return $user;
     }
 
+
     /**
-     * After Update method
+     * Before create method
      *
-     * Changes "New" to "Assigned" if user is assigned.
+     * Generate temporary invalid hash id, that will be replaced in after create.
      *
-     * Triggers mail sender on update.
+     * Changes from new to assigned if detects assigned user
      */
-    public function afterUpdate()
+    public function beforeCreate()
+    {
+        $user = $this->user_id;
+        $statusId = $this->status_id;
+        $newStatus = TicketStatus::where('name', 'New')->first()->id;
+        $assignedStatus = TicketStatus::where('name', 'Assigned')->first()->id;
+
+        if ($user != null && $statusId == $newStatus) {
+            $this->status_id = $assignedStatus;
+        }
+
+        if (!$this->hash_id) {
+            $this->hash_id = 'invalid';
+        }
+    }
+
+
+    /**
+     * After create method
+     *
+     * Changes temporary hash id to proper basing on a record id
+     */
+    public function afterCreate()
+    {
+        if ($this->hash_id == 'invalid') {
+            $helpers = new SupportHelpers();
+            $hashId = $helpers->generateHashId($this->id);
+            $this->hash_id = $hashId;
+            $this->save();
+        }
+
+    }
+
+    /**
+     * Before Update method
+     *
+     * Changes from new to assigned if detects assigned user
+     */
+    public function beforeUpdate()
     {
         $user = $this->user_id;
         $statusId = $this->status->id;
@@ -89,8 +134,15 @@ class Ticket extends Model
         if ($user != null && $statusId == $newStatus) {
             $this->status_id = $assignedStatus;
         }
+    }
 
-
+    /**
+     * After Update method
+     *
+     * Triggers mail sender on update.
+     */
+    public function afterUpdate()
+    {
         $mailer = new SupportMailer();
         $email = $this->creator->email;
         $address = Settings::get('address');

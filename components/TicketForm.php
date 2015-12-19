@@ -50,13 +50,7 @@ class TicketForm extends ComponentBase
      */
     public function defineProperties()
     {
-        return [
-            'ticketPage' => [
-                'title'       => 'keios.support::lang.app.ticket_page',
-                'description' => 'keios.support::lang.app.ticket_page_desc',
-                'default'     => '/ticket',
-            ],
-        ];
+        return [];
     }
 
 

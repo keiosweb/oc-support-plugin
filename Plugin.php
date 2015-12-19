@@ -10,6 +10,14 @@ class Plugin extends PluginBase
 {
 
     /**
+     * @var array
+     */
+    public $require = [
+        'Keios.ProUser',
+        'RainLab.Translate',
+    ];
+
+    /**
      * Returns information about this plugin.
      *
      * @return array
@@ -55,7 +63,7 @@ class Plugin extends PluginBase
             'Keios\Support\Components\TicketForm'   => 'ticket_form',
             'Keios\Support\Components\TicketList'   => 'ticket_list',
             'Keios\Support\Components\TicketStatus' => 'ticket_status',
-
+            'Keios\Support\Components\Upload'       => 'ticket_attach',
         ];
     }
 
@@ -67,16 +75,16 @@ class Plugin extends PluginBase
     public function registerMailTemplates()
     {
         return [
-            'keios.support::mail.ticket.first'          => trans(
+            'keios.support::mail.ticket.first'  => trans(
                 'keios.support::lang.mailer.first'
             ),
-            'keios.support::mail.ticket.create'         => trans(
+            'keios.support::mail.ticket.create' => trans(
                 'keios.support::lang.mailer.create'
             ),
-            'keios.support::mail.ticket.update'         => trans(
+            'keios.support::mail.ticket.update' => trans(
                 'keios.support::lang.mailer.update'
             ),
-            'keios.support::mail.ticket.close'          => trans(
+            'keios.support::mail.ticket.close'  => trans(
                 'keios.support::lang.mailer.close'
             ),
         ];
@@ -97,28 +105,34 @@ class Plugin extends PluginBase
                 'order'    => 500,
                 'sideMenu' => [
                     'tickets'          => [
-                        'label' => 'keios.support::lang.app.tickets',
-                        'url'   => Backend::url('keios/support/tickets'),
+                        'label'       => 'keios.support::lang.app.tickets',
+                        'url'         => Backend::url('keios/support/tickets'),
                         'permissions' => ['keios.support.tickets'],
-                        'icon'  => 'icon-ticket',
+                        'icon'        => 'icon-ticket',
+                    ],
+                    'ticketattachments'   => [
+                        'label'       => 'keios.support::lang.app.ticketattachments',
+                        'url'         => Backend::url('keios/support/ticketattachments'),
+                        'permissions' => ['keios.support.statuses'],
+                        'icon'        => 'icon-file',
                     ],
                     'ticketcategories' => [
-                        'label' => 'keios.support::lang.app.ticketcategories',
-                        'url'   => Backend::url('keios/support/ticketcategories'),
+                        'label'       => 'keios.support::lang.app.ticketcategories',
+                        'url'         => Backend::url('keios/support/ticketcategories'),
                         'permissions' => ['keios.support.categories'],
-                        'icon'  => 'icon-folder-o',
+                        'icon'        => 'icon-folder',
                     ],
                     'ticketstatuses'   => [
-                        'label' => 'keios.support::lang.app.ticketstatuses',
-                        'url'   => Backend::url('keios/support/ticketstatuses'),
+                        'label'       => 'keios.support::lang.app.ticketstatuses',
+                        'url'         => Backend::url('keios/support/ticketstatuses'),
                         'permissions' => ['keios.support.statuses'],
-                        'icon'  => 'icon-flag-o',
+                        'icon'        => 'icon-flag',
                     ],
                     'ticketpriorities' => [
-                        'label' => 'keios.support::lang.app.ticketpriorities',
-                        'url'   => Backend::url('keios/support/ticketpriorities'),
+                        'label'       => 'keios.support::lang.app.ticketpriorities',
+                        'url'         => Backend::url('keios/support/ticketpriorities'),
                         'permissions' => ['keios.support.priorities'],
-                        'icon'  => 'icon-star',
+                        'icon'        => 'icon-star',
                     ],
                 ],
             ],

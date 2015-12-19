@@ -3,6 +3,8 @@
 # ===================================
 
 columns:
+    hash_id:
+        label: Number
     priority:
         label: Priority
         relation: priority
@@ -25,3 +27,7 @@ columns:
         label: Category
         relation: category
         valueFrom: name
+    created_at:
+        label: Created at
+    updated_at:
+        label: Updated at

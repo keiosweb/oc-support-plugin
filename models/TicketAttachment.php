@@ -22,6 +22,7 @@ class TicketAttachment extends Model
      */
     public $belongsTo = [
         'user' => ['Backend\Models\User'],
+        'ticket' => ['Keios\Support\Models\Ticket']
     ];
 
     /**

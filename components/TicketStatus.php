@@ -2,8 +2,10 @@
 
 use Cms\Classes\ComponentBase;
 use Keios\Support\Models\Ticket;
+use Keios\Support\Models\TicketAttachment;
 use Keios\Support\Models\TicketComment;
 use Validator;
+use Cms\Classes\Page;
 
 /**
  * Class TicketStatus
@@ -29,11 +31,17 @@ class TicketStatus extends ComponentBase
     public function defineProperties()
     {
         return [
-            'slug' => [
+            'slug'       => [
                 'title'       => 'keios.support::lang.app.hash',
                 'description' => 'keios.support::lang.app.hash_desc',
                 'default'     => '{{ :hash }}',
                 'type'        => 'string',
+            ],
+            'uploadPage' => [
+                'title'       => 'keios.support::lang.settings.upload_page',
+                'description' => 'keios.support::lang.settings.upload_page_description',
+                'type'        => 'dropdown',
+                'default'     => 'upload',
             ],
         ];
     }
@@ -45,14 +53,10 @@ class TicketStatus extends ComponentBase
     {
         $hash = $this->property('slug');
         $creator = \Auth::getUser();
-        if ($hash) {
-            $ticket = Ticket::where('hash_id', $hash)->where('creator_id', $creator->id)->first();
-            $this->page['user_email'] = $ticket->creator->email;
-            $this->page['user_code'] = $ticket->creator->code;
-            $this->page['ticket'] = $ticket;
-        } else {
-            $this->page['ask_number'] = true;
-        }
+        $ticket = Ticket::where('hash_id', $hash)->where('creator_id', $creator->id)->first();
+        $ticketFiles = TicketAttachment::where('ticket_id', $ticket->id)->get();
+        $this->page['ticket'] = $ticket;
+        $this->page['ticket_files'] = $ticketFiles;
     }
 
     /**
@@ -87,6 +91,26 @@ class TicketStatus extends ComponentBase
         $comment->save();
 
         $this->page['ticket'] = $ticket;
+    }
+
+    /**
+     *
+     */
+    public function onRender()
+    {
+        $urlPage = $this->property('uploadPage');
+        //$path = Page::url($urlPage, array(), false);
+        $path = Page::url($urlPage);
+
+        $this->page['uploadPage'] = $path;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUploadPageOptions()
+    {
+        return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
     }
 
     /**
