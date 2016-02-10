@@ -1,5 +1,9 @@
 # Keios Support Plugin
 
+### THIS IS A MIRROR
+
+**Main repository with latest version is available at [BitBucket](https://bitbucket.org/keiosweb/oc-support-plugin)**
+
 Simple support ticket manager for OctoberCMS written in 2 days by [Jakub Zych](http://keios.eu) 
 
 ![backend-screen](https://i.keios.eu/screenshot-151219-183307.png)
